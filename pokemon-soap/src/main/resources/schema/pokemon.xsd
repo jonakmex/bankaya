@@ -1,5 +1,5 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
-           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bankaya.com/pokemon-web-service"
+           targetNamespace="http://bankaya.com/pokemon-web-service" elementFormDefault="qualified">
 
     <xs:element name="helloRequest">
         <xs:complexType>
