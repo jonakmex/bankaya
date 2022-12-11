@@ -1,4 +1,5 @@
 package com.bankaya.pokemon.boundary;
 
-public class Response {
+public abstract class Response {
+
 }

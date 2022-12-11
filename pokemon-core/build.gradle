@@ -9,6 +9,8 @@ plugins {
 
 ext {
     junitVersion = '5.8.1'
+    mockitoVersion = '4.9.0'
+    lombokVersion = '1.18.24'
 }
 
 group = 'com.bankaya'
@@ -27,7 +29,12 @@ java {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.5'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation 'junit:junit:4.13.1'
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.9.0'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.9.0'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
 }
 
 configurations {
