@@ -1,0 +1,35 @@
+plugins{
+id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'maven-publish'
+}
+
+group = 'com.bankaya'
+version = '0.0.1-SNAPSHOT'
+
+repositories{
+mavenLocal()
+    mavenCentral()
+}
+
+dependencies{
+implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.5'
+}
+
+bootJar{
+enabled = false
+}
+
+jar{
+enabled = true
+}
+
+publishing{
+publications{
+maven (MavenPublication){
+artifactId = rootProject.name
+            from components.java
+}
+    }
+}
