@@ -1,5 +1,10 @@
 package com.bankaya.pokemon.boundary;
 
-public abstract class Request {
+import java.util.HashMap;
+import java.util.Map;
 
+public class Request {
+    public Map<String,String> validate(){
+        return new HashMap<>();
+    }
 }

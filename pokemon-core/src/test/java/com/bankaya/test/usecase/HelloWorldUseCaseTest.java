@@ -7,19 +7,16 @@ import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.usecase.HelloWorldUseCase;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyMap;
@@ -38,7 +35,7 @@ public class HelloWorldUseCaseTest {
     public void setup(){
         lenient().when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase());
         lenient().when(requestFactory.make(anyString(),anyMap())).thenAnswer(i -> {
-            Map<String,Object> arg = (Map)i.getArgument(1);
+            Map arg = i.getArgument(1,Map.class);
             HelloWorldRequest helloWorldRequest = new HelloWorldRequest();
             helloWorldRequest.name = arg.get("name").toString();
             return helloWorldRequest;
@@ -49,13 +46,23 @@ public class HelloWorldUseCaseTest {
     public void should_execute_use_case(){
         UseCase useCase = useCaseFactory.make("HelloWorldUseCase");
         Request request = requestFactory.make("HelloWorldRequest", Collections.singletonMap("name", "Javier"));
-        useCase.execute(request)
-                .map(response -> (HelloWorldResponse)response)
-                .subscribe(response -> logger.debug(response.greeting));
+        StepVerifier.create(useCase.execute(request))
+                        .expectNextMatches(response -> {
+                            HelloWorldResponse helloWorldResponse = (HelloWorldResponse) response;
+                            return response.success && helloWorldResponse.greeting != null && helloWorldResponse.greeting.equals("Hello Javier");
+                        })
+                        .expectComplete()
+                        .verify();
     }
 
     @Test
-    public void test2(){
-        logger.debug("Test 2");
+    public void should_execute_failing_use_case(){
+        UseCase useCase = useCaseFactory.make("HelloWorldUseCase");
+        Request request = requestFactory.make("HelloWorldRequest", Collections.singletonMap("name", ""));
+
+        StepVerifier.create(useCase.execute(request))
+                .expectNextMatches(response -> !response.success)
+                .expectComplete()
+                .verify();
     }
 }

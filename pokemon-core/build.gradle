@@ -33,6 +33,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.9.0'
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.9.0'
+    testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.5.0'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
 }
