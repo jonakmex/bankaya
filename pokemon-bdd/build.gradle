@@ -8,11 +8,11 @@ plugins {
 }
 
 ext {
-    junitVersion = '5.8.1'
+    junitVersion = '5.7.2'
     cucumberVersion = '6.10.4'
 }
 
-group = 'com.bankaya'
+group = 'com.bankaya.test'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
@@ -29,17 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.5'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
-
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
-
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
     testImplementation "org.junit.vintage:junit-vintage-engine:${junitVersion}"
-}
-
-configurations {
-    cucumberRuntime {
-        extendsFrom testImplementation
-    }
 }
 
 bootJar {
@@ -58,6 +50,14 @@ publishing {
         }
     }
 }
+
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
 
 test {
     useJUnitPlatform()
