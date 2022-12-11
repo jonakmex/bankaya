@@ -18,7 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -35,17 +37,21 @@ public class HelloWorldUseCaseTest {
     @BeforeEach
     public void setup(){
         lenient().when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase());
-        lenient().when(requestFactory.make(anyString(),anyMap())).thenReturn(new HelloWorldRequest());
+        lenient().when(requestFactory.make(anyString(),anyMap())).thenAnswer(i -> {
+            Map<String,Object> arg = (Map)i.getArgument(1);
+            HelloWorldRequest helloWorldRequest = new HelloWorldRequest();
+            helloWorldRequest.name = arg.get("name").toString();
+            return helloWorldRequest;
+        });
     }
 
     @Test
-    public void test1(){
+    public void should_execute_use_case(){
         UseCase useCase = useCaseFactory.make("HelloWorldUseCase");
-        Request request = requestFactory.make("HelloWorldRequest",new HashMap<>());
+        Request request = requestFactory.make("HelloWorldRequest", Collections.singletonMap("name", "Javier"));
         useCase.execute(request)
-                .subscribe(response -> {
-                    logger.debug(((HelloWorldResponse)response).greeting);
-                });
+                .map(response -> (HelloWorldResponse)response)
+                .subscribe(response -> logger.debug(response.greeting));
     }
 
     @Test
