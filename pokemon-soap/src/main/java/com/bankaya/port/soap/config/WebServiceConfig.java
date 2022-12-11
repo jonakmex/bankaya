@@ -23,12 +23,12 @@ public class WebServiceConfig {
     }
 
     @Bean(name = "pokemon")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema pokemonSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("PokemonPort");
         wsdl11Definition.setLocationUri("/ws");
         wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
-        wsdl11Definition.setSchema(countriesSchema);
+        wsdl11Definition.setSchema(pokemonSchema);
         return wsdl11Definition;
     }
 

@@ -1,6 +1,7 @@
 package com.bankaya.port.soap.endpoint;
 
 
+
 import io.spring.guides.gs_producing_web_service.HelloRequest;
 import io.spring.guides.gs_producing_web_service.HelloResponse;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
