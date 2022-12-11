@@ -12,7 +12,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import java.util.Collections;
+import static java.util.Collections.singletonMap;
 
 @Endpoint
 public class PokemonEndpoint {
@@ -29,7 +29,7 @@ public class PokemonEndpoint {
     @ResponsePayload
     public HelloResponse hello(@RequestPayload HelloRequest request) {
         UseCase useCase = useCaseFactory.make("HelloWorldUseCase");
-        Request helloWorldRequest = requestFactory.make("", Collections.singletonMap("name", "Jonathan"));
+        Request helloWorldRequest = requestFactory.make("", singletonMap("name", "Jonathan"));
         HelloResponse response = new HelloResponse();
         useCase.execute(helloWorldRequest)
                 .map(r -> (HelloWorldResponse)r)
