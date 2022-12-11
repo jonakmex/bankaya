@@ -4,12 +4,11 @@ import com.bankaya.pokemon.boundary.HelloWorldRequest;
 import com.bankaya.pokemon.boundary.HelloWorldResponse;
 import com.bankaya.pokemon.boundary.Request;
 import com.bankaya.pokemon.boundary.Response;
-import lombok.EqualsAndHashCode;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-@EqualsAndHashCode(callSuper=false)
+
 public class HelloWorldUseCase implements UseCase {
     @Override
     public Mono<Response> execute(Request request) {

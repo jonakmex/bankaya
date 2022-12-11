@@ -14,8 +14,11 @@ public class HelloWorldRequest extends Request {
     @Override
     public Map<String, String> validate() {
         Map<String,String> errors = new HashMap<>();
-        if(name == null || name.length()<1||name.length()>30)
+        if(name == null || name.length()<1)
             errors.put("name","MSG_ERR_001");
+
+        if(name.length()>30)
+            errors.put("name","MSG_ERR_002");
 
         return errors;
     }
