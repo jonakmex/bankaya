@@ -1,4 +1,4 @@
-package com.bankaya.pokemon.boundary;
+package com.bankaya.pokemon.boundary.request;
 
 import java.util.HashMap;
 import java.util.Map;

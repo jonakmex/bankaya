@@ -1,15 +1,23 @@
 package com.bankaya.pokemon.usecase;
 
-import com.bankaya.pokemon.boundary.HelloWorldRequest;
-import com.bankaya.pokemon.boundary.HelloWorldResponse;
-import com.bankaya.pokemon.boundary.Request;
-import com.bankaya.pokemon.boundary.Response;
+import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
+import com.bankaya.pokemon.boundary.response.HelloWorldResponse;
+import com.bankaya.pokemon.boundary.request.Request;
+import com.bankaya.pokemon.boundary.response.Response;
+import com.bankaya.pokemon.gateway.HelloGateway;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 
 public class HelloWorldUseCase implements UseCase {
+
+    private HelloGateway helloGateway;
+
+    public HelloWorldUseCase(HelloGateway helloGateway) {
+        this.helloGateway = helloGateway;
+    }
+
     @Override
     public Mono<Response> execute(Request request) {
         Map<String,String> errors = request.validate();

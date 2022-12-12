@@ -1,6 +1,6 @@
 package com.bankaya.test.unit;
 
-import com.bankaya.pokemon.boundary.HelloWorldRequest;
+import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

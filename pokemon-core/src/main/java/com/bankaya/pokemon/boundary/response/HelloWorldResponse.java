@@ -1,4 +1,4 @@
-package com.bankaya.pokemon.boundary;
+package com.bankaya.pokemon.boundary.response;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

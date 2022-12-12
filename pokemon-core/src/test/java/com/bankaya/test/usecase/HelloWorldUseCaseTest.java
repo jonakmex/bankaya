@@ -1,9 +1,10 @@
 package com.bankaya.test.usecase;
 
-import com.bankaya.pokemon.boundary.HelloWorldRequest;
-import com.bankaya.pokemon.boundary.HelloWorldResponse;
-import com.bankaya.pokemon.boundary.Request;
+import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
+import com.bankaya.pokemon.boundary.response.HelloWorldResponse;
+import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.RequestFactory;
+import com.bankaya.pokemon.gateway.HelloGateway;
 import com.bankaya.pokemon.usecase.HelloWorldUseCase;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
@@ -30,10 +31,18 @@ public class HelloWorldUseCaseTest {
     private UseCaseFactory useCaseFactory;
     @Mock
     private RequestFactory requestFactory;
+    @Mock
+    private HelloGateway helloGateway;
 
     @BeforeEach
     public void setup(){
-        lenient().when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase());
+        lenient().when(helloGateway.retrieveGreeting(anyString())).thenAnswer(i -> {
+            String name = i.getArgument(0);
+            return "Hello "+name;
+        });
+
+        lenient().when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase(helloGateway));
+
         lenient().when(requestFactory.make(anyString(),anyMap())).thenAnswer(i -> {
             Map arg = i.getArgument(1,Map.class);
             HelloWorldRequest helloWorldRequest = new HelloWorldRequest();

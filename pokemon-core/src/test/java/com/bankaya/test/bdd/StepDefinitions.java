@@ -1,9 +1,10 @@
 package com.bankaya.test.bdd;
 
-import com.bankaya.pokemon.boundary.HelloWorldRequest;
-import com.bankaya.pokemon.boundary.HelloWorldResponse;
-import com.bankaya.pokemon.boundary.Request;
 import com.bankaya.pokemon.boundary.RequestFactory;
+import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
+import com.bankaya.pokemon.boundary.request.Request;
+import com.bankaya.pokemon.boundary.response.HelloWorldResponse;
+import com.bankaya.pokemon.gateway.HelloGateway;
 import com.bankaya.pokemon.usecase.HelloWorldUseCase;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
@@ -23,12 +24,16 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class StepDefinitions {
     private UseCaseFactory useCaseFactory;
     private RequestFactory requestFactory;
+    private HelloGateway helloGateway;
     private Request request;
     private String result;
 
     @Before
     public void beforeScenario(){
         requestFactory = Mockito.mock(RequestFactory.class);
+        useCaseFactory = Mockito.mock(UseCaseFactory.class);
+        helloGateway = Mockito.mock(HelloGateway.class);
+
         Mockito.when(requestFactory.make(anyString(),anyMap())).thenAnswer(i -> {
             Map arg = i.getArgument(1,Map.class);
             HelloWorldRequest helloWorldRequest = new HelloWorldRequest();
@@ -36,8 +41,11 @@ public class StepDefinitions {
             return helloWorldRequest;
         });
 
-        useCaseFactory = Mockito.mock(UseCaseFactory.class);
-        Mockito.when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase());
+        Mockito.when(helloGateway.retrieveGreeting(anyString())).thenAnswer(i -> {
+            String name = i.getArgument(0);
+            return "Hello "+name;
+        });
+        Mockito.when(useCaseFactory.make(anyString())).thenReturn(new HelloWorldUseCase(helloGateway));
     }
 
     @Given("My Name is Jonathan")
