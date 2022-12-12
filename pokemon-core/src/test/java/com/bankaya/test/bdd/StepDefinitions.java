@@ -1,4 +1,4 @@
-package com.bankaya.test;
+package com.bankaya.test.bdd;
 
 import com.bankaya.pokemon.boundary.HelloWorldRequest;
 import com.bankaya.pokemon.boundary.HelloWorldResponse;
@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 

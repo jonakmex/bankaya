@@ -11,6 +11,7 @@ ext {
     junitVersion = '5.8.1'
     mockitoVersion = '4.9.0'
     lombokVersion = '1.18.24'
+    cucumberVersion = '7.8.1'
 }
 
 group = 'com.bankaya'
@@ -36,6 +37,9 @@ dependencies {
     testImplementation group: 'io.projectreactor', name: 'reactor-test', version: '3.5.0'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.7.2'
 }
 
 configurations {
@@ -63,10 +67,10 @@ publishing {
 
 test {
     useJUnitPlatform()
-
     testLogging {
         events TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED
     }
 
     systemProperties(project.gradle.startParameter.systemPropertiesArgs)
 }
+
