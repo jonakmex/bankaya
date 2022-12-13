@@ -1,6 +1,8 @@
 package com.bankaya.test.impl;
 
 import com.bankaya.pokemon.gateway.HelloGateway;
+import com.bankaya.pokemon.gateway.PokemonGateway;
+import com.bankaya.pokemon.usecase.FindAbilitiesUseCase;
 import com.bankaya.pokemon.usecase.HelloWorldUseCase;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
@@ -25,17 +27,24 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
         switch (useCaseName){
             case "HelloWorldUseCase":
                 return makeHelloWorldUseCase();
+            case "FindAbilitiesUseCase":
+                return makeFindAbilitiesUseCase();
             default:
                 return null;
         }
     }
 
+    private UseCase makeFindAbilitiesUseCase() {
+        if(context.get("FindAbilitiesUseCase") == null)
+            context.put("FindAbilitiesUseCase", new FindAbilitiesUseCase((PokemonGateway) context.get("pokemonGateway")));
+
+        return (UseCase) context.get("FindAbilitiesUseCase");
+    }
 
 
     private UseCase makeHelloWorldUseCase() {
         if(context.get("HelloWorldUseCase") == null)
             context.put("HelloWorldUseCase", new HelloWorldUseCase((HelloGateway) context.get("helloGateway") ));
-
 
         return (UseCase) context.get("HelloWorldUseCase");
     }
