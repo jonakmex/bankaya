@@ -1,18 +1,30 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bankaya.com/pokemon-web-service"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://bankaya.com/pokemon-web-service"
            targetNamespace="http://bankaya.com/pokemon-web-service" elementFormDefault="qualified">
 
-    <xs:element name="helloRequest">
-        <xs:complexType>
+
+    <xs:element name="ability" type="tns:ability"/>
+    <xs:complexType  name="ability">
             <xs:sequence>
                 <xs:element name="name" type="xs:string"/>
+                <xs:element name="hidden" type="xs:boolean"/>
+                <xs:element name="slot" type="xs:int"/>
+            </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="findAbilitiesSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="helloResponse">
+    <xs:element name="findAbilitiesSoapResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="greeting" type="xs:string"/>
+                <xs:element name="abilities" maxOccurs="unbounded" minOccurs="0"  type="tns:ability"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -4,9 +4,7 @@ import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.response.FindAbilitiesResponse;
-import com.bankaya.pokemon.boundary.response.HelloWorldResponse;
 import com.bankaya.pokemon.entity.Pokemon;
-import com.bankaya.pokemon.gateway.HelloGateway;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
@@ -38,14 +36,6 @@ public class StepDefinitions {
         requestFactory = new RequestFactoryImpl();
         useCaseFactory = new UseCaseFactoryImpl();
 
-
-        HelloGateway helloGateway = Mockito.mock(HelloGateway.class);
-        Mockito.when(helloGateway.retrieveGreeting(anyString())).thenAnswer(i -> {
-            String name = i.getArgument(0);
-            return "Hello "+name;
-        });
-        ((UseCaseFactoryImpl)useCaseFactory).getContext().put("helloGateway",helloGateway);
-
         PokemonGateway pokemonGateway = Mockito.mock(PokemonGateway.class);
         Mockito.when(pokemonGateway.findAbilitiesByName(anyString())).thenAnswer(i->{
             String name = i.getArgument(0);
@@ -63,23 +53,6 @@ public class StepDefinitions {
 
         scenarioContext = new HashMap<>();
 
-    }
-
-    @Given("My Name is Jonathan")
-    public void my_name_is_jonathan() {
-        Request request = requestFactory.make("HelloWorldRequest", singletonMap("name","Jonathan"));
-        scenarioContext.put("helloWorldRequest",request);
-    }
-    @When("I ask for the greeting")
-    public void i_ask_for_the_greeting() {
-        UseCase useCase = useCaseFactory.make("HelloWorldUseCase");
-        useCase.execute((Request)scenarioContext.get("helloWorldRequest"))
-                .map(r -> (HelloWorldResponse)r)
-                .subscribe(response -> scenarioContext.put("result",response.greeting));
-    }
-    @Then("I should be told Hello Jonathan")
-    public void i_should_be_told_hello_jonathan() {
-        assertEquals("Hello Jonathan", scenarioContext.get("result"));
     }
 
     @Given("There is a pokemon called ditto")
@@ -102,7 +75,7 @@ public class StepDefinitions {
         List<AbilityDS> abilities = (List<AbilityDS>) scenarioContext.get("abilities");
         assertNotNull(abilities);
         assertTrue(!abilities.isEmpty());
-        abilities.stream().forEach(a -> logger.debug(a.name));
+        abilities.stream().forEach(a -> logger.debug(a.slot+""));
     }
 }
 

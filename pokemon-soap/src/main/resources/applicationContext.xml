@@ -3,6 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="HelloWorldUseCase" class="com.bankaya.pokemon.usecase.HelloWorldUseCase"/>
+    <bean id="pokemonAbilitiesGateway" class="com.bankaya.port.soap.gateway.PokemonGatewayWebClient">
+        <constructor-arg ref="webClient" />
+    </bean>
+
+    <bean id="FindAbilitiesUseCase" class="com.bankaya.pokemon.usecase.FindAbilitiesUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonAbilitiesGateway"/>
+    </bean>
 
 </beans>

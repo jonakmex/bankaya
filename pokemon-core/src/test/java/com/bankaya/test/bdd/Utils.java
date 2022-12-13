@@ -12,7 +12,7 @@ public class Utils {
     }
 
     private static List<Ability> makeRandomAbilities() {
-        return Arrays.asList(new Ability(7L,"limber")
-                            ,new Ability(150L,"imposter"));
+        return Arrays.asList(new Ability("",Boolean.FALSE,10)
+                            ,new Ability("",Boolean.TRUE,1));
     }
 }

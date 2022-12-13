@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AbilityDS {
-    public Long id;
     public String name;
+    public Integer slot;
+    public Boolean hidden;
 }

@@ -7,6 +7,9 @@ plugins {
 
 group = 'com.bankaya'
 version = '0.0.1-SNAPSHOT'
+ext {
+    lombokVersion = '1.18.24'
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -68,6 +71,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
     implementation 'wsdl4j:wsdl4j'
     jaxb("org.glassfish.jaxb:jaxb-xjc")
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
     // For Java 11:
     implementation 'org.glassfish.jaxb:jaxb-runtime'
     implementation 'com.bankaya:pokemon-core:0.0.1-SNAPSHOT'

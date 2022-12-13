@@ -42,8 +42,9 @@ public class FindAbilitiesUseCase implements UseCase {
 
     private Mono<AbilityDS> mapToAbilityDS(Ability ability) {
         AbilityDS abilityDS = new AbilityDS();
-        abilityDS.id = ability.getId();
         abilityDS.name = ability.getName();
+        abilityDS.slot = ability.getSlot();
+        abilityDS.hidden = ability.getHidden();
         return Mono.just(abilityDS);
     }
 }

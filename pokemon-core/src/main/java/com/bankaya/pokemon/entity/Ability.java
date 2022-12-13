@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ability {
-    private Long id;
     private String name;
+    private Boolean hidden;
+    private Integer slot;
 }
