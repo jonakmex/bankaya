@@ -6,6 +6,7 @@ import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
+import com.bankaya.pokemon_web_service.Abilities;
 import com.bankaya.pokemon_web_service.Ability;
 import com.bankaya.pokemon_web_service.FindAbilitiesSoapRequest;
 import com.bankaya.pokemon_web_service.FindAbilitiesSoapResponse;
@@ -39,9 +40,11 @@ public class PokemonEndpoint {
         useCase.execute(findAbilitiesRequest)
                         .map(r -> (com.bankaya.pokemon.boundary.response.FindAbilitiesResponse)r)
                         .subscribe(r -> {
-                            findAbilitiesSoapResponse.getAbilities().addAll(
+                            Abilities abilities = new Abilities();
+                            abilities.getAbility().addAll(
                                     r.abilities.stream().map(a -> mapToSoapResponse(a)).collect(Collectors.toList())
                             );
+                            findAbilitiesSoapResponse.setAbilities(abilities);
                         });
 
         return findAbilitiesSoapResponse;
