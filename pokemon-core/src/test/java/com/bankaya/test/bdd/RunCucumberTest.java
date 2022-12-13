@@ -1,4 +1,4 @@
-package com.bankaya.test;
+package com.bankaya.test.bdd;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

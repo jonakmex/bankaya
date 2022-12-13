@@ -1,4 +1,4 @@
-package com.bankaya.test.unit;
+package com.bankaya.test.unit.component;
 
 import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
 import org.junit.jupiter.api.Test;

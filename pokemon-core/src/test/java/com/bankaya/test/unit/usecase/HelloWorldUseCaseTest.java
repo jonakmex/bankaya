@@ -1,4 +1,4 @@
-package com.bankaya.test.usecase;
+package com.bankaya.test.unit.usecase;
 
 import com.bankaya.pokemon.boundary.request.HelloWorldRequest;
 import com.bankaya.pokemon.boundary.response.HelloWorldResponse;
