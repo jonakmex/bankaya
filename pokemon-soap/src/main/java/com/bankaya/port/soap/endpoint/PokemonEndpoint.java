@@ -6,15 +6,13 @@ import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
-import com.bankaya.pokemon_web_service.Abilities;
-import com.bankaya.pokemon_web_service.Ability;
-import com.bankaya.pokemon_web_service.FindAbilitiesSoapRequest;
-import com.bankaya.pokemon_web_service.FindAbilitiesSoapResponse;
+import com.bankaya.pokemon_web_service.*;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -50,10 +48,43 @@ public class PokemonEndpoint {
         return findAbilitiesSoapResponse;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findBaseExperienceSoapRequest")
+    @ResponsePayload
+    public FindBaseExperienceSoapResponse findBaseExperience(@RequestPayload FindBaseExperienceSoapRequest request) {
+        FindBaseExperienceSoapResponse findBaseExperienceSoapResponse = new FindBaseExperienceSoapResponse();
+        return findBaseExperienceSoapResponse;
+    }
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findHeldItemsSoapRequest")
+    @ResponsePayload
+    public FindHeldItemsSoapResponse findHeldItems(@RequestPayload FindHeldItemsSoapRequest request) {
+        FindHeldItemsSoapResponse findHeldItemsSoapResponse = new FindHeldItemsSoapResponse();
+        return findHeldItemsSoapResponse;
+    }
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findIdSoapRequest")
+    @ResponsePayload
+    public FindIdSoapResponse findId(@RequestPayload FindIdSoapRequest request) {
+        FindIdSoapResponse findIdSoapResponse = new FindIdSoapResponse();
+        return findIdSoapResponse;
+    }
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findNameSoapRequest")
+    @ResponsePayload
+    public FindNameSoapResponse findName(@RequestPayload FindNameSoapRequest request) {
+        FindNameSoapResponse findNameSoapResponse = new FindNameSoapResponse();
+        return findNameSoapResponse;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findLocationAreaEncountersSoapRequest")
+    @ResponsePayload
+    public FindLocationAreaEncountersSoapResponse findLocationAreaEncounters(@RequestPayload FindLocationAreaEncountersSoapRequest request) {
+        FindLocationAreaEncountersSoapResponse findLocationAreaEncountersSoapResponse = new FindLocationAreaEncountersSoapResponse();
+        return findLocationAreaEncountersSoapResponse;
+    }
+
+
     private Ability mapToSoapResponse(AbilityDS a) {
         Ability ability = new Ability();
         ability.setName(a.getName());
-        ability.setSlot(a.slot);
+        ability.setSlot(BigInteger.valueOf(a.slot));
         ability.setHidden(a.hidden);
         return ability;
     }

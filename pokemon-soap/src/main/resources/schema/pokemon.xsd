@@ -4,13 +4,7 @@
 
 
     <xs:element name="abilities" type="tns:abilities"/>
-    <xs:complexType  name="ability">
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-                <xs:element name="hidden" type="xs:boolean"/>
-                <xs:element name="slot" type="xs:int"/>
-            </xs:sequence>
-    </xs:complexType>
+    <xs:element name="helditems" type="tns:helditems"/>
 
     <xs:complexType name="abilities">
         <xs:sequence>
@@ -18,7 +12,114 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType  name="ability">
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="hidden" type="xs:boolean"/>
+                <xs:element name="slot" type="xs:integer"/>
+            </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="versiondetail">
+        <xs:sequence>
+            <xs:element name="rarity" type="xs:integer"/>
+            <xs:element name="version" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="locationDetail">
+        <xs:sequence>
+            <xs:element name="encounterDetails" type="tns:encounterDetails"/>
+            <xs:element name="maxChance" type="xs:integer"/>
+            <xs:element name="version" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="encounterDetail">
+        <xs:sequence>
+            <xs:element name="chance" type="xs:integer"/>
+            <xs:element name="conditionValues" type="xs:string"/>
+            <xs:element name="maxLevel" type="xs:integer"/>
+            <xs:element name="method" type="xs:string"/>
+            <xs:element name="minLevel" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="helditems">
+        <xs:sequence>
+            <xs:element name="helditem" maxOccurs="unbounded" minOccurs="0"  type="tns:helditem"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="encounterDetails">
+        <xs:sequence>
+            <xs:element name="encounterDetail" maxOccurs="unbounded" minOccurs="0"  type="tns:encounterDetail"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="versiondetails">
+        <xs:sequence>
+            <xs:element name="versiondetail" maxOccurs="unbounded" minOccurs="0"  type="tns:versiondetail"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="locationDetails">
+        <xs:sequence>
+            <xs:element name="locationDetail" maxOccurs="unbounded" minOccurs="0"  type="tns:locationDetail"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="helditem">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="versiondetails" type="tns:versiondetails"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="locationEncounter">
+        <xs:sequence>
+            <xs:element name="locationArea" type="xs:string"/>
+            <xs:element name="locationDetails" type="tns:locationDetails"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
     <xs:element name="findAbilitiesSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="findBaseExperienceSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="findHeldItemsSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="findIdSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="findNameSoapRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pokemonName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="findLocationAreaEncountersSoapRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="pokemonName" type="xs:string"/>
@@ -33,4 +134,45 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="findBaseExperienceSoapResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="baseExperience"  type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findHeldItemsSoapResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="helditems"  type="tns:helditems"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findIdSoapResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id"  type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findNameSoapResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id"  type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="findLocationAreaEncountersSoapResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="locationAreaEncounters"  type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>
