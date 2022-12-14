@@ -19,14 +19,14 @@ public class WebServiceConfig {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean<>(servlet, "/ws/*");
+        return new ServletRegistrationBean<>(servlet, "/pokemon-ws/*");
     }
 
     @Bean(name = "pokemon")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema pokemonSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("PokemonPort");
-        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setLocationUri("/pokemon-ws");
         wsdl11Definition.setTargetNamespace("http://bankaya.com/pokemon-web-service");
         wsdl11Definition.setSchema(pokemonSchema);
         return wsdl11Definition;

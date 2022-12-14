@@ -27,7 +27,7 @@ public class PokemonEndpoint {
         this.requestFactory = requestFactory;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findAbilitiesSoapRequest")
+    @PayloadRoot( namespace = NAMESPACE_URI, localPart = "findAbilitiesSoapRequest")
     @ResponsePayload
     public FindAbilitiesSoapResponse findAbilities(@RequestPayload FindAbilitiesSoapRequest request) {
         FindAbilitiesSoapResponse findAbilitiesSoapResponse = new FindAbilitiesSoapResponse();
