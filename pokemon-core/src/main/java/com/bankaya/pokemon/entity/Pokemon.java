@@ -13,4 +13,5 @@ public class Pokemon {
     private Long id;
     private String name;
     private List<Ability> abilities;
+    private Integer baseExperience;
 }

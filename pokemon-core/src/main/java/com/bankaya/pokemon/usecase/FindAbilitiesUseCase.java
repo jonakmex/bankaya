@@ -35,7 +35,8 @@ public class FindAbilitiesUseCase implements UseCase {
     }
 
     private Response makeFindAbilitiesResponse(List<AbilityDS> abilities) {
-        FindAbilitiesResponse findAbilitiesResponse = new FindAbilitiesResponse();
+        var findAbilitiesResponse = new FindAbilitiesResponse();
+        findAbilitiesResponse.success = Boolean.TRUE;
         findAbilitiesResponse.abilities = abilities;
         return findAbilitiesResponse;
     }
