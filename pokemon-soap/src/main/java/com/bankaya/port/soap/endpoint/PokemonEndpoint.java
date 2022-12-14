@@ -4,6 +4,7 @@ package com.bankaya.port.soap.endpoint;
 import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
+import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
 import com.bankaya.pokemon_web_service.*;
@@ -52,6 +53,15 @@ public class PokemonEndpoint {
     @ResponsePayload
     public FindBaseExperienceSoapResponse findBaseExperience(@RequestPayload FindBaseExperienceSoapRequest request) {
         FindBaseExperienceSoapResponse findBaseExperienceSoapResponse = new FindBaseExperienceSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindBaseExperienceUseCase");
+        Request findBaseExperienceRequest = requestFactory
+                .make("FindBaseExperienceRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findBaseExperienceRequest)
+                .map(r -> (FindBaseExperienceResponse)r)
+                .subscribe(r -> {
+                    findBaseExperienceSoapResponse.setBaseExperience(BigInteger.valueOf(r.baseExperience));
+                });
         return findBaseExperienceSoapResponse;
     }
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findHeldItemsSoapRequest")

@@ -7,6 +7,7 @@ import com.bankaya.port.soap.gateway.dto.PokemonDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class PokemonGatewayWebClient implements PokemonGateway {
         PokemonDto pokemon = webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/pokemon/{id}")
+                        .path("/pokemon/{name}")
                         .build(pokemonName))
                 .retrieve()
                 .bodyToMono(PokemonDto.class)
@@ -34,6 +35,19 @@ public class PokemonGatewayWebClient implements PokemonGateway {
                                         .stream()
                                         .map(abilityDto -> mapToAbility(abilityDto))
                                         .collect(Collectors.toList()));
+    }
+
+    @Override
+    public Mono<Integer> findBaseExperienceByName(String name) {
+        PokemonDto pokemon = webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/pokemon/{name}")
+                        .build(name))
+                .retrieve()
+                .bodyToMono(PokemonDto.class)
+                .block();
+        return Mono.just(pokemon.baseExperience);
     }
 
     private Ability mapToAbility(AbilityDto abilityDto) {
