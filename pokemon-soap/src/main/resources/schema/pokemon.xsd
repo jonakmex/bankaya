@@ -23,7 +23,7 @@
     <xs:complexType  name="versiondetail">
         <xs:sequence>
             <xs:element name="rarity" type="xs:integer"/>
-            <xs:element name="version" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

@@ -1,10 +1,13 @@
 package com.bankaya.port.soap.gateway;
 
 import com.bankaya.pokemon.entity.Ability;
+import com.bankaya.pokemon.entity.HeldDetail;
 import com.bankaya.pokemon.entity.HeldItem;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.port.soap.gateway.dto.AbilityDto;
+import com.bankaya.port.soap.gateway.dto.HeldItemDto;
 import com.bankaya.port.soap.gateway.dto.PokemonDto;
+import com.bankaya.port.soap.gateway.dto.VersionDetailDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -53,7 +56,33 @@ public class PokemonGatewayWebClient implements PokemonGateway {
 
     @Override
     public Flux<HeldItem> findHeldItems(String name) {
-        return null;
+        PokemonDto pokemon = webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/pokemon/{name}")
+                        .build(name))
+                .retrieve()
+                .bodyToMono(PokemonDto.class)
+                .block();
+        return Flux.fromIterable(pokemon.heldItems.stream()
+                .map(dto -> mapToHeldItem(dto))
+                .collect(Collectors.toList()));
+    }
+
+    private HeldItem mapToHeldItem(HeldItemDto dto) {
+        var heldItem = new HeldItem();
+        heldItem.setName(dto.item.get("name"));
+        heldItem.setDetails(dto.versionDetails.stream()
+                .map(d -> mapToDetail(d))
+                .collect(Collectors.toList()));
+        return heldItem;
+    }
+
+    private HeldDetail mapToDetail(VersionDetailDto d) {
+        var heldDetail = new HeldDetail();
+        heldDetail.setName(d.version.get("name"));
+        heldDetail.setRarity(d.rarity);
+        return heldDetail;
     }
 
     @Override

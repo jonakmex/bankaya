@@ -3,8 +3,11 @@ package com.bankaya.port.soap.endpoint;
 
 import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.boundary.ds.AbilityDS;
+import com.bankaya.pokemon.boundary.ds.HeldDetailDS;
+import com.bankaya.pokemon.boundary.ds.HeldItemDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
+import com.bankaya.pokemon.boundary.response.FindHeldItemsResponse;
 import com.bankaya.pokemon.boundary.response.FindIdResponse;
 import com.bankaya.pokemon.boundary.response.FindNameResponse;
 import com.bankaya.pokemon.usecase.UseCase;
@@ -17,6 +20,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import java.math.BigInteger;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Endpoint
@@ -70,9 +74,51 @@ public class PokemonEndpoint {
     @ResponsePayload
     public FindHeldItemsSoapResponse findHeldItems(@RequestPayload FindHeldItemsSoapRequest request) {
         FindHeldItemsSoapResponse findHeldItemsSoapResponse = new FindHeldItemsSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindHeldItemsUseCase");
+        Request findHeldItemsRequest = requestFactory
+                .make("FindHeldItemsRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findHeldItemsRequest)
+                .map(r -> (FindHeldItemsResponse)r)
+                .subscribe(r -> {
+                    findHeldItemsSoapResponse.setHelditems(mapToHeldItemSoapResponse(r.heldItems));
+                });
 
         return findHeldItemsSoapResponse;
     }
+
+    private com.bankaya.pokemon_web_service.Helditems mapToHeldItemSoapResponse(List<HeldItemDS> heldItemsDs) {
+        var heldItemsSoap = new com.bankaya.pokemon_web_service.Helditems();
+        heldItemsSoap.getHelditem().addAll(heldItemsDs
+                .stream()
+                .map(ds -> mapToHeldItemSoapResponse(ds))
+                .collect(Collectors.toList()));
+        return heldItemsSoap;
+    }
+
+    private com.bankaya.pokemon_web_service.Helditem mapToHeldItemSoapResponse(HeldItemDS heldItemDs) {
+        var heldItemSoap = new com.bankaya.pokemon_web_service.Helditem();
+        heldItemSoap.setName(heldItemDs.name);
+        heldItemSoap.setVersiondetails(mapToVersionDetailsSoap(heldItemDs.details));
+        return heldItemSoap;
+    }
+
+    private Versiondetails mapToVersionDetailsSoap(List<HeldDetailDS> details) {
+        var versionDetailsSoap = new Versiondetails();
+        versionDetailsSoap.getVersiondetail().addAll(details
+                .stream()
+                .map(ds -> mapToVersionDetailsSoap(ds))
+                .collect(Collectors.toList()));
+        return versionDetailsSoap;
+    }
+
+    private Versiondetail mapToVersionDetailsSoap(HeldDetailDS detail) {
+        var versionDetailSoap = new Versiondetail();
+        versionDetailSoap.setName(detail.name);
+        versionDetailSoap.setRarity(BigInteger.valueOf(detail.rarity));
+        return versionDetailSoap;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findIdSoapRequest")
     @ResponsePayload
     public FindIdSoapResponse findId(@RequestPayload FindIdSoapRequest request) {
