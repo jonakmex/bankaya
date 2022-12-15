@@ -1,10 +1,7 @@
 package com.bankaya.test.impl;
 
 import com.bankaya.pokemon.boundary.RequestFactory;
-import com.bankaya.pokemon.boundary.request.FindAbilitiesRequest;
-import com.bankaya.pokemon.boundary.request.FindBaseExperienceRequest;
-import com.bankaya.pokemon.boundary.request.FindIdRequest;
-import com.bankaya.pokemon.boundary.request.Request;
+import com.bankaya.pokemon.boundary.request.*;
 
 import java.util.Map;
 
@@ -19,9 +16,17 @@ public class RequestFactoryImpl implements RequestFactory {
                 return makeFindBaseExperienceRequest(params);
             case "FindIdRequest":
                 return makeFindIdRequest(params);
+            case "FindNameRequest":
+                return makeFindNameRequest(params);
             default:
                 return null;
         }
+    }
+
+    private Request makeFindNameRequest(Map<String, Object> params) {
+        var findNameRequest = new FindNameRequest();
+        findNameRequest.name = params.get("name").toString();
+        return findNameRequest;
     }
 
     private Request makeFindIdRequest(Map<String, Object> params) {

@@ -6,6 +6,7 @@ import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.response.FindAbilitiesResponse;
 import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
 import com.bankaya.pokemon.boundary.response.FindIdResponse;
+import com.bankaya.pokemon.boundary.response.FindNameResponse;
 import com.bankaya.pokemon.entity.Pokemon;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.pokemon.usecase.UseCase;
@@ -74,6 +75,19 @@ public class StepDefinitions {
                     .findFirst();
             if(!found.isEmpty())
                 return Mono.just(found.get().getId());
+            else
+                return Mono.empty();
+
+        });
+
+        Mockito.when(pokemonGateway.findName(anyString())).thenAnswer(i->{
+            String name = i.getArgument(0);
+            List<Pokemon> pokemons = (List<Pokemon>) scenarioContext.get("pokemons");
+            Optional<Pokemon> found = pokemons.stream()
+                    .filter(p -> p.getName().equals(name))
+                    .findFirst();
+            if(!found.isEmpty())
+                return Mono.just(found.get().getName());
             else
                 return Mono.empty();
 
@@ -151,6 +165,30 @@ public class StepDefinitions {
     @Then("I should get it's id")
     public void i_should_get_it_s_id() {
         assertNull(scenarioContext.get("base_experience"));
+    }
+
+    @Then("I should get an empty id")
+    public void i_should_get_an_empty_id() {
+        assertNull(scenarioContext.get("id"));
+    }
+
+    @When("I retrieve it's name")
+    public void i_retrieve_it_s_name() {
+        UseCase useCase = useCaseFactory.make("FindNameUseCase");
+        Request request = requestFactory.make("FindNameRequest", singletonMap("name", scenarioContext.get("pokemonName")));
+        useCase.execute(request)
+                .map(response -> (FindNameResponse)response)
+                .subscribe(response -> scenarioContext.put("name",response.name));
+    }
+    @Then("I should get it's name")
+    public void i_should_get_it_s_name() {
+        logger.debug(scenarioContext.get("name").toString());
+        assertNotNull(scenarioContext.get("name"));
+    }
+
+    @Then("I should get an empty name")
+    public void i_should_get_an_empty_name() {
+        assertNull(scenarioContext.get("name"));
     }
 }
 

@@ -8,4 +8,4 @@ Scenario: Finding the id for an existing pokemon by name
 Scenario: Finding the id for a non existing pokemon
     Given There is not a pokemon called xyz
     When I retrieve it's id
-    Then I should get an empty result
+    Then I should get an empty id
