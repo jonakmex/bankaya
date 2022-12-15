@@ -4,5 +4,6 @@ public interface PokemonGateway extends PokemonAbilitiesGateway
                                         ,PokemonBaseExperienceGateway
                                         ,PokemonIdGateway
                                         ,PokemonNameGateway
-                                        ,PokemonHeldItemsGateway {
+                                        ,PokemonHeldItemsGateway
+                                        ,PokemonLocationEncountersGateway {
 }

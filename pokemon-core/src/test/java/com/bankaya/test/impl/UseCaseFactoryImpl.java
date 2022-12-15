@@ -31,9 +31,18 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
                 return makeFindNameUseCase();
             case "FindHeldItemsUseCase":
                 return makeFindHeldItemsUseCase();
+            case "FindLocationEncountersUseCase":
+                return makeFindLocationEncountersUseCase();
             default:
                 return null;
         }
+    }
+
+    private UseCase makeFindLocationEncountersUseCase() {
+        if(context.get("FindLocationEncountersUseCase") == null)
+            context.put("FindLocationEncountersUseCase", new FindLocationEncountersUseCase((PokemonGateway) context.get("pokemonGateway"),(PokemonGateway) context.get("pokemonGateway")));
+
+        return (UseCase) context.get("FindLocationEncountersUseCase");
     }
 
     private UseCase makeFindHeldItemsUseCase() {

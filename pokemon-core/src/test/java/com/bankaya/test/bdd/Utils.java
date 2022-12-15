@@ -1,9 +1,6 @@
 package com.bankaya.test.bdd;
 
-import com.bankaya.pokemon.entity.Ability;
-import com.bankaya.pokemon.entity.HeldDetail;
-import com.bankaya.pokemon.entity.HeldItem;
-import com.bankaya.pokemon.entity.Pokemon;
+import com.bankaya.pokemon.entity.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +9,7 @@ import java.util.Random;
 
 public class Utils {
     public static Pokemon newPokemonWithAbilities(String pokemonName){
-        return  new Pokemon((new Random().nextLong(100)),pokemonName,makeRandomAbilities(),makeRandomHeldItems(),(new Random().nextInt(10)));
+        return  new Pokemon(1L,pokemonName,makeRandomAbilities(),makeRandomHeldItems(),(new Random().nextInt(10)),makeRandomEncounters());
     }
 
     private static List<Ability> makeRandomAbilities() {
@@ -33,5 +30,21 @@ public class Utils {
                 ,new HeldDetail("detail-2",2)
         );
         return heldDetails;
+    }
+
+    private static List<Encounter> makeRandomEncounters(){
+        return Arrays.asList(
+                new Encounter("encounter-1",makeEncounterDetails())
+        );
+    }
+
+    private static List<EncounterDetail> makeEncounterDetails() {
+        return Arrays.asList(
+                new EncounterDetail(   10
+                                    ,"conditional"
+                                    ,0
+                                    ,100
+                                    ,"method")
+        );
     }
 }

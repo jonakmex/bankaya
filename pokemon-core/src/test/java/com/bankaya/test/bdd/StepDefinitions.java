@@ -24,7 +24,7 @@ import java.util.*;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 
 public class StepDefinitions {
     private static final Logger logger = LoggerFactory.getLogger(StepDefinitions.class);
@@ -98,6 +98,19 @@ public class StepDefinitions {
                     .findFirst();
             if(!found.isEmpty())
                 return Flux.fromIterable(found.get().getHeldItems());
+            else
+                return Flux.empty();
+
+        });
+
+        Mockito.when(pokemonGateway.findLocationEncountersById(anyLong())).thenAnswer(i->{
+            Long id = i.getArgument(0);
+            List<Pokemon> pokemons = (List<Pokemon>) scenarioContext.get("pokemons");
+            Optional<Pokemon> found = pokemons.stream()
+                    .filter(p -> p.getId().equals(id))
+                    .findFirst();
+            if(!found.isEmpty())
+                return Flux.fromIterable(found.get().getEncounters());
             else
                 return Flux.empty();
 
@@ -218,6 +231,25 @@ public class StepDefinitions {
     @Then("I should get an empty held items")
     public void i_should_get_an_empty_held_items() {
         assertTrue(((List)scenarioContext.get("heldItems")).isEmpty());
+    }
+
+    @When("I retrieve it's Location Encounters")
+    public void i_retrieve_it_s_location_encounters() {
+        UseCase useCase = useCaseFactory.make("FindLocationEncountersUseCase");
+        Request request = requestFactory.make("FindLocationEncountersRequest", singletonMap("name", scenarioContext.get("pokemonName")));
+        useCase.execute(request)
+                .map(response -> (FindLocationEncountersResponse)response)
+                .subscribe(response -> scenarioContext.put("locationEncounters",response.encounters));
+    }
+
+    @Then("I should get it's Location Encounters")
+    public void i_should_get_it_s_location_encounters() {
+        assertNotNull(scenarioContext.get("locationEncounters"));
+        assertFalse(((List)scenarioContext.get("locationEncounters")).isEmpty());
+    }
+    @Then("I should get an empty Location Encounters")
+    public void i_should_get_an_empty_location_encounters() {
+        assertNull((scenarioContext.get("locationEncounters")));
     }
 }
 

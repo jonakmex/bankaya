@@ -15,4 +15,5 @@ public class Pokemon {
     private List<Ability> abilities;
     private List<HeldItem> heldItems;
     private Integer baseExperience;
+    private List<Encounter> encounters;
 }

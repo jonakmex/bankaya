@@ -20,9 +20,17 @@ public class RequestFactoryImpl implements RequestFactory {
                 return makeFindNameRequest(params);
             case "FindHeldItemsRequest":
                 return makeFindHeldItemsRequest(params);
+            case "FindLocationEncountersRequest":
+                return makeFindLocationEncountersRequest(params);
             default:
                 return null;
         }
+    }
+
+    private Request makeFindLocationEncountersRequest(Map<String, Object> params) {
+        var findLocationEncounters = new FindLocationEncountersRequest();
+        findLocationEncounters.name = params.get("name").toString();
+        return findLocationEncounters;
     }
 
     private Request makeFindHeldItemsRequest(Map<String, Object> params) {
