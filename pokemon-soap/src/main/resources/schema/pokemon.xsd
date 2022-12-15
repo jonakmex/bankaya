@@ -27,6 +27,7 @@
         </xs:sequence>
     </xs:complexType>
 
+
     <xs:complexType  name="locationDetail">
         <xs:sequence>
             <xs:element name="encounterDetails" type="tns:encounterDetails"/>
@@ -69,6 +70,19 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="encounter">
+        <xs:sequence>
+            <xs:element name="locationArea" type="xs:string"/>
+            <xs:element name="encounterDetails"   type="tns:encounterDetails"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType  name="encounters">
+        <xs:sequence>
+            <xs:element name="encounter" maxOccurs="unbounded" minOccurs="0"  type="tns:encounter"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType  name="helditem">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
@@ -76,12 +90,6 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType  name="locationEncounter">
-        <xs:sequence>
-            <xs:element name="locationArea" type="xs:string"/>
-            <xs:element name="locationDetails" type="tns:locationDetails"/>
-        </xs:sequence>
-    </xs:complexType>
 
 
     <xs:element name="findAbilitiesSoapRequest">
@@ -170,7 +178,7 @@
     <xs:element name="findLocationAreaEncountersSoapResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="locationAreaEncounters"  type="xs:string"/>
+                <xs:element name="encounters"  type="tns:encounters"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

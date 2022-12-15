@@ -22,37 +22,45 @@ public class RequestFactoryImpl implements RequestFactory {
                 return makeFindNameRequest(params);
             case "FindHeldItemsRequest":
                 return makeFindHeldItemsRequest(params);
+            case "FindLocationEncountersRequest":
+                return makeFindLocationEncountersRequest(params);
             default:
                 return null;
         }
     }
 
+    private Request makeFindLocationEncountersRequest(Map<String, Object> params) {
+        var findLocationEncountersRequest = new FindLocationEncountersRequest();
+        findLocationEncountersRequest.setName(params.get("name").toString());
+        return findLocationEncountersRequest;
+    }
+
     private Request makeFindHeldItemsRequest(Map<String, Object> params) {
-        FindHeldItemsRequest findHeldItemsRequest = new FindHeldItemsRequest();
+        var findHeldItemsRequest = new FindHeldItemsRequest();
         findHeldItemsRequest.setName(params.get("name").toString());
         return findHeldItemsRequest;
     }
 
     private Request makeFindNameRequest(Map<String, Object> params) {
-        FindNameRequest findNameRequest = new FindNameRequest();
+        var findNameRequest = new FindNameRequest();
         findNameRequest.setName(params.get("name").toString());
         return findNameRequest;
     }
 
     private Request makeFindIdRequest(Map<String, Object> params) {
-        FindIdRequest findIdRequest = new FindIdRequest();
+        var findIdRequest = new FindIdRequest();
         findIdRequest.setName(params.get("name").toString());
         return findIdRequest;
     }
 
     private Request makeFindBaseExperienceRequest(Map<String, Object> params) {
-        FindBaseExperienceRequest findBaseExperienceRequest = new FindBaseExperienceRequest();
+        var findBaseExperienceRequest = new FindBaseExperienceRequest();
         findBaseExperienceRequest.setName(params.get("name").toString());
         return findBaseExperienceRequest;
     }
 
     private Request makeFindAbilitiesRequest(Map<String, Object> params) {
-        FindAbilitiesRequest findAbilitiesRequest = new FindAbilitiesRequest();
+        var findAbilitiesRequest = new FindAbilitiesRequest();
         findAbilitiesRequest.setName(params.get("name").toString());
         return findAbilitiesRequest;
     }

@@ -2,14 +2,9 @@ package com.bankaya.port.soap.endpoint;
 
 
 import com.bankaya.pokemon.boundary.RequestFactory;
-import com.bankaya.pokemon.boundary.ds.AbilityDS;
-import com.bankaya.pokemon.boundary.ds.HeldDetailDS;
-import com.bankaya.pokemon.boundary.ds.HeldItemDS;
+import com.bankaya.pokemon.boundary.ds.*;
 import com.bankaya.pokemon.boundary.request.Request;
-import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
-import com.bankaya.pokemon.boundary.response.FindHeldItemsResponse;
-import com.bankaya.pokemon.boundary.response.FindIdResponse;
-import com.bankaya.pokemon.boundary.response.FindNameResponse;
+import com.bankaya.pokemon.boundary.response.*;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
 import com.bankaya.pokemon_web_service.*;
@@ -87,6 +82,97 @@ public class PokemonEndpoint {
         return findHeldItemsSoapResponse;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findIdSoapRequest")
+    @ResponsePayload
+    public FindIdSoapResponse findId(@RequestPayload FindIdSoapRequest request) {
+        FindIdSoapResponse findIdSoapResponse = new FindIdSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindIdUseCase");
+        Request findBaseExperienceRequest = requestFactory
+                .make("FindIdRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findBaseExperienceRequest)
+                .map(r -> (FindIdResponse)r)
+                .subscribe(r -> {
+                    findIdSoapResponse.setId(BigInteger.valueOf(r.id));
+                });
+        return findIdSoapResponse;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findNameSoapRequest")
+    @ResponsePayload
+    public FindNameSoapResponse findName(@RequestPayload FindNameSoapRequest request) {
+        FindNameSoapResponse findNameSoapResponse = new FindNameSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindNameUseCase");
+        Request findNameRequest = requestFactory
+                .make("FindNameRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findNameRequest)
+                .map(r -> (FindNameResponse)r)
+                .subscribe(r -> {
+                    findNameSoapResponse.setName(r.name);
+                });
+        return findNameSoapResponse;
+    }
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findLocationAreaEncountersSoapRequest")
+    @ResponsePayload
+    public FindLocationAreaEncountersSoapResponse findLocationAreaEncounters(@RequestPayload FindLocationAreaEncountersSoapRequest request) {
+        var findLocationAreaEncountersSoapResponse = new FindLocationAreaEncountersSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindLocationEncountersUseCase");
+        Request findLocationEncountersRequest = requestFactory
+                .make("FindLocationEncountersRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findLocationEncountersRequest)
+                .map(r -> (FindLocationEncountersResponse)r)
+                .subscribe(r -> {
+                    findLocationAreaEncountersSoapResponse.setEncounters(mapToLocationEncountersSoap(r.encounters));
+                });
+        return findLocationAreaEncountersSoapResponse;
+    }
+
+    private Encounters mapToLocationEncountersSoap(List<EncounterDS> encountersDs) {
+        var encounters = new Encounters();
+        encounters.getEncounter().addAll(encountersDs
+                .stream()
+                .map(ds -> mapToEncounterSoap(ds))
+                .collect(Collectors.toList()));
+        return encounters;
+    }
+
+    private Encounter mapToEncounterSoap(EncounterDS ds) {
+        var encounter = new Encounter();
+        encounter.setLocationArea(ds.locationArea);
+        encounter.setEncounterDetails(mapToEncounterDetails(ds));
+        return encounter;
+    }
+
+    private EncounterDetails mapToEncounterDetails(EncounterDS ds) {
+        var encounterDetails = new EncounterDetails();
+        encounterDetails.getEncounterDetail().addAll(ds.encounterDetails
+                .stream()
+                .map(dtl -> mapToEncounterDetailSoap(dtl))
+                .collect(Collectors.toList()));
+        return encounterDetails;
+    }
+
+    private EncounterDetail mapToEncounterDetailSoap(EncounterDetailDS dtl) {
+        var encounterDetail = new EncounterDetail();
+        encounterDetail.setChance(BigInteger.valueOf(dtl.chance));
+        encounterDetail.setConditionValues(dtl.conditionValues);
+        encounterDetail.setMaxLevel(BigInteger.valueOf(dtl.maxLevel));
+        encounterDetail.setMethod(dtl.method);
+        encounterDetail.setMinLevel(BigInteger.valueOf(dtl.minLevel));
+        return encounterDetail;
+    }
+
+
+    private Ability mapToSoapResponse(AbilityDS a) {
+        Ability ability = new Ability();
+        ability.setName(a.getName());
+        ability.setSlot(BigInteger.valueOf(a.slot));
+        ability.setHidden(a.hidden);
+        return ability;
+    }
+
     private com.bankaya.pokemon_web_service.Helditems mapToHeldItemSoapResponse(List<HeldItemDS> heldItemsDs) {
         var heldItemsSoap = new com.bankaya.pokemon_web_service.Helditems();
         heldItemsSoap.getHelditem().addAll(heldItemsDs
@@ -117,52 +203,5 @@ public class PokemonEndpoint {
         versionDetailSoap.setName(detail.name);
         versionDetailSoap.setRarity(BigInteger.valueOf(detail.rarity));
         return versionDetailSoap;
-    }
-
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findIdSoapRequest")
-    @ResponsePayload
-    public FindIdSoapResponse findId(@RequestPayload FindIdSoapRequest request) {
-        FindIdSoapResponse findIdSoapResponse = new FindIdSoapResponse();
-        UseCase useCase = useCaseFactory.make("FindIdUseCase");
-        Request findBaseExperienceRequest = requestFactory
-                .make("FindIdRequest", Collections.singletonMap("name",request.getPokemonName()));
-
-        useCase.execute(findBaseExperienceRequest)
-                .map(r -> (FindIdResponse)r)
-                .subscribe(r -> {
-                    findIdSoapResponse.setId(BigInteger.valueOf(r.id));
-                });
-        return findIdSoapResponse;
-    }
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findNameSoapRequest")
-    @ResponsePayload
-    public FindNameSoapResponse findName(@RequestPayload FindNameSoapRequest request) {
-        FindNameSoapResponse findNameSoapResponse = new FindNameSoapResponse();
-        UseCase useCase = useCaseFactory.make("FindNameUseCase");
-        Request findNameRequest = requestFactory
-                .make("FindNameRequest", Collections.singletonMap("name",request.getPokemonName()));
-
-        useCase.execute(findNameRequest)
-                .map(r -> (FindNameResponse)r)
-                .subscribe(r -> {
-                    findNameSoapResponse.setName(r.name);
-                });
-        return findNameSoapResponse;
-    }
-
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findLocationAreaEncountersSoapRequest")
-    @ResponsePayload
-    public FindLocationAreaEncountersSoapResponse findLocationAreaEncounters(@RequestPayload FindLocationAreaEncountersSoapRequest request) {
-        FindLocationAreaEncountersSoapResponse findLocationAreaEncountersSoapResponse = new FindLocationAreaEncountersSoapResponse();
-        return findLocationAreaEncountersSoapResponse;
-    }
-
-
-    private Ability mapToSoapResponse(AbilityDS a) {
-        Ability ability = new Ability();
-        ability.setName(a.getName());
-        ability.setSlot(BigInteger.valueOf(a.slot));
-        ability.setHidden(a.hidden);
-        return ability;
     }
 }

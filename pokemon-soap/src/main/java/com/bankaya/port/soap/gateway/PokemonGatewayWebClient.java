@@ -1,18 +1,15 @@
 package com.bankaya.port.soap.gateway;
 
-import com.bankaya.pokemon.entity.Ability;
-import com.bankaya.pokemon.entity.HeldDetail;
-import com.bankaya.pokemon.entity.HeldItem;
+import com.bankaya.pokemon.entity.*;
 import com.bankaya.pokemon.gateway.PokemonGateway;
-import com.bankaya.port.soap.gateway.dto.AbilityDto;
-import com.bankaya.port.soap.gateway.dto.HeldItemDto;
-import com.bankaya.port.soap.gateway.dto.PokemonDto;
-import com.bankaya.port.soap.gateway.dto.VersionDetailDto;
+import com.bankaya.port.soap.gateway.dto.*;
+import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,6 +106,41 @@ public class PokemonGatewayWebClient implements PokemonGateway {
                 .bodyToMono(PokemonDto.class)
                 .block();
         return Mono.just(pokemon.name);
+    }
+
+    @Override
+    public Flux<Encounter> findLocationEncountersById(Long id) {
+        List<Encounter> encounterDtos =
+         webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/pokemon/{id}/encounters")
+                        .build(id))
+                .retrieve()
+                .bodyToFlux(EncounterDto.class)
+                .flatMap(e -> mapToEncounter(e))
+                 .collectList()
+                 .block();
+        return Flux.fromIterable(encounterDtos);
+    }
+
+    private Mono<Encounter> mapToEncounter(EncounterDto e) {
+        var encounter = new Encounter();
+        encounter.setLocationArea(e.locationArea);
+        encounter.setEncounterDetails(e.encounterDetails.stream()
+                .map(d -> mapToEncounterDetail(d))
+                .collect(Collectors.toList()));
+        return Mono.just(encounter);
+    }
+
+    private EncounterDetail mapToEncounterDetail(EncounterDetailDto d) {
+        var encounterDetail = new EncounterDetail();
+        encounterDetail.setChance(d.getChance());
+        encounterDetail.setConditionValues(d.conditionValues.get("name"));
+        encounterDetail.setMethod(d.method.get("name"));
+        encounterDetail.setMinLevel(d.minLevel);
+        encounterDetail.setMaxLevel(d.maxLevel);
+        return encounterDetail;
     }
 
     private Ability mapToAbility(AbilityDto abilityDto) {
