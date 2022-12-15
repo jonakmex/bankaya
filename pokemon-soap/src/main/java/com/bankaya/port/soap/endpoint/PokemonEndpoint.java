@@ -141,7 +141,7 @@ public class PokemonEndpoint {
     private Encounter mapToEncounterSoap(EncounterDS ds) {
         var encounter = new Encounter();
         encounter.setLocationArea(ds.locationArea);
-        encounter.setEncounterDetails(mapToEncounterDetails(ds));
+        //encounter.setEncounterDetails(mapToEncounterDetails(ds));
         return encounter;
     }
 

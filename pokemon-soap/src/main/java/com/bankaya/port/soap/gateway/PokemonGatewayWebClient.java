@@ -4,12 +4,16 @@ import com.bankaya.pokemon.entity.*;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.port.soap.gateway.dto.*;
 import org.reactivestreams.Publisher;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,27 +114,32 @@ public class PokemonGatewayWebClient implements PokemonGateway {
 
     @Override
     public Flux<Encounter> findLocationEncountersById(Long id) {
-        List<Encounter> encounterDtos =
-         webClient
+
+        EncounterDto[] encounterDtos = webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/pokemon/{id}/encounters")
                         .build(id))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(EncounterDto.class)
-                .flatMap(e -> mapToEncounter(e))
-                 .collectList()
-                 .block();
-        return Flux.fromIterable(encounterDtos);
+                .bodyToMono(EncounterDto[].class)
+                .block();
+        List<Encounter> encounters = Arrays.asList(encounterDtos)
+                .stream()
+                .map(dto -> mapToEncounter(dto))
+                .collect(Collectors.toList());
+
+        return Flux.fromIterable(encounters);
     }
 
-    private Mono<Encounter> mapToEncounter(EncounterDto e) {
+    private Encounter mapToEncounter(EncounterDto e) {
         var encounter = new Encounter();
-        encounter.setLocationArea(e.locationArea);
-        encounter.setEncounterDetails(e.encounterDetails.stream()
-                .map(d -> mapToEncounterDetail(d))
-                .collect(Collectors.toList()));
-        return Mono.just(encounter);
+        encounter.setLocationArea(e.locationArea.get("name"));
+        encounter.setEncounterDetails(new ArrayList<>());
+        //encounter.setEncounterDetails(e.encounterDetails.stream()
+        //        .map(d -> mapToEncounterDetail(d))
+        //        .collect(Collectors.toList()));
+        return encounter;
     }
 
     private EncounterDetail mapToEncounterDetail(EncounterDetailDto d) {
