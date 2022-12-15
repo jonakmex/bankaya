@@ -5,6 +5,8 @@ import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
+import com.bankaya.pokemon.boundary.response.FindIdResponse;
+import com.bankaya.pokemon.boundary.response.FindNameResponse;
 import com.bankaya.pokemon.usecase.UseCase;
 import com.bankaya.pokemon.usecase.UseCaseFactory;
 import com.bankaya.pokemon_web_service.*;
@@ -68,18 +70,37 @@ public class PokemonEndpoint {
     @ResponsePayload
     public FindHeldItemsSoapResponse findHeldItems(@RequestPayload FindHeldItemsSoapRequest request) {
         FindHeldItemsSoapResponse findHeldItemsSoapResponse = new FindHeldItemsSoapResponse();
+
         return findHeldItemsSoapResponse;
     }
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findIdSoapRequest")
     @ResponsePayload
     public FindIdSoapResponse findId(@RequestPayload FindIdSoapRequest request) {
         FindIdSoapResponse findIdSoapResponse = new FindIdSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindIdUseCase");
+        Request findBaseExperienceRequest = requestFactory
+                .make("FindIdRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findBaseExperienceRequest)
+                .map(r -> (FindIdResponse)r)
+                .subscribe(r -> {
+                    findIdSoapResponse.setId(BigInteger.valueOf(r.id));
+                });
         return findIdSoapResponse;
     }
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "findNameSoapRequest")
     @ResponsePayload
     public FindNameSoapResponse findName(@RequestPayload FindNameSoapRequest request) {
         FindNameSoapResponse findNameSoapResponse = new FindNameSoapResponse();
+        UseCase useCase = useCaseFactory.make("FindNameUseCase");
+        Request findNameRequest = requestFactory
+                .make("FindNameRequest", Collections.singletonMap("name",request.getPokemonName()));
+
+        useCase.execute(findNameRequest)
+                .map(r -> (FindNameResponse)r)
+                .subscribe(r -> {
+                    findNameSoapResponse.setName(r.name);
+                });
         return findNameSoapResponse;
     }
 

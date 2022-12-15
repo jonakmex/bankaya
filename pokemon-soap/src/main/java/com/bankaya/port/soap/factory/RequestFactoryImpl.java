@@ -1,9 +1,7 @@
 package com.bankaya.port.soap.factory;
 
 import com.bankaya.pokemon.boundary.RequestFactory;
-import com.bankaya.pokemon.boundary.request.FindAbilitiesRequest;
-import com.bankaya.pokemon.boundary.request.FindBaseExperienceRequest;
-import com.bankaya.pokemon.boundary.request.Request;
+import com.bankaya.pokemon.boundary.request.*;
 import org.springframework.stereotype.Component;
 
 
@@ -18,9 +16,25 @@ public class RequestFactoryImpl implements RequestFactory {
                 return makeFindAbilitiesRequest(params);
             case "FindBaseExperienceRequest":
                 return makeFindBaseExperienceRequest(params);
+            case "FindIdRequest":
+                return makeFindIdRequest(params);
+            case "FindNameRequest":
+                return makeFindNameRequest(params);
             default:
                 return null;
         }
+    }
+
+    private Request makeFindNameRequest(Map<String, Object> params) {
+        FindNameRequest findNameRequest = new FindNameRequest();
+        findNameRequest.setName(params.get("name").toString());
+        return findNameRequest;
+    }
+
+    private Request makeFindIdRequest(Map<String, Object> params) {
+        FindIdRequest findIdRequest = new FindIdRequest();
+        findIdRequest.setName(params.get("name").toString());
+        return findIdRequest;
     }
 
     private Request makeFindBaseExperienceRequest(Map<String, Object> params) {

@@ -7,8 +7,13 @@
     <bean id="FindAbilitiesUseCase" class="com.bankaya.pokemon.usecase.FindAbilitiesUseCase">
         <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
     </bean>
-
     <bean id="FindBaseExperienceUseCase" class="com.bankaya.pokemon.usecase.FindBaseExperienceUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindIdUseCase" class="com.bankaya.pokemon.usecase.FindIdUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindNameUseCase" class="com.bankaya.pokemon.usecase.FindNameUseCase">
         <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
     </bean>
 

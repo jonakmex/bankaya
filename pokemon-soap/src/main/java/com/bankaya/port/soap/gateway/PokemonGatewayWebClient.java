@@ -1,6 +1,7 @@
 package com.bankaya.port.soap.gateway;
 
 import com.bankaya.pokemon.entity.Ability;
+import com.bankaya.pokemon.entity.HeldItem;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.port.soap.gateway.dto.AbilityDto;
 import com.bankaya.port.soap.gateway.dto.PokemonDto;
@@ -48,6 +49,37 @@ public class PokemonGatewayWebClient implements PokemonGateway {
                 .bodyToMono(PokemonDto.class)
                 .block();
         return Mono.just(pokemon.baseExperience);
+    }
+
+    @Override
+    public Flux<HeldItem> findHeldItems(String name) {
+        return null;
+    }
+
+    @Override
+    public Mono<Long> findIdByName(String pokemonName) {
+        PokemonDto pokemon = webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/pokemon/{name}")
+                        .build(pokemonName))
+                .retrieve()
+                .bodyToMono(PokemonDto.class)
+                .block();
+        return Mono.just(pokemon.id);
+    }
+
+    @Override
+    public Mono<String> findName(String name) {
+        PokemonDto pokemon = webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/pokemon/{name}")
+                        .build(name))
+                .retrieve()
+                .bodyToMono(PokemonDto.class)
+                .block();
+        return Mono.just(pokemon.name);
     }
 
     private Ability mapToAbility(AbilityDto abilityDto) {
