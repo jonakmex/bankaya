@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Pokemon {
-    private Long id;
+@AllArgsConstructor
+public class HeldItem {
     private String name;
-    private List<Ability> abilities;
-    private List<HeldItem> heldItems;
-    private Integer baseExperience;
+    private List<HeldDetail> details;
 }

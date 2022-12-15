@@ -3,10 +3,7 @@ package com.bankaya.test.bdd;
 import com.bankaya.pokemon.boundary.RequestFactory;
 import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
-import com.bankaya.pokemon.boundary.response.FindAbilitiesResponse;
-import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
-import com.bankaya.pokemon.boundary.response.FindIdResponse;
-import com.bankaya.pokemon.boundary.response.FindNameResponse;
+import com.bankaya.pokemon.boundary.response.*;
 import com.bankaya.pokemon.entity.Pokemon;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.pokemon.usecase.UseCase;
@@ -90,6 +87,19 @@ public class StepDefinitions {
                 return Mono.just(found.get().getName());
             else
                 return Mono.empty();
+
+        });
+
+        Mockito.when(pokemonGateway.findHeldItems(anyString())).thenAnswer(i->{
+            String name = i.getArgument(0);
+            List<Pokemon> pokemons = (List<Pokemon>) scenarioContext.get("pokemons");
+            Optional<Pokemon> found = pokemons.stream()
+                    .filter(p -> p.getName().equals(name))
+                    .findFirst();
+            if(!found.isEmpty())
+                return Flux.fromIterable(found.get().getHeldItems());
+            else
+                return Flux.empty();
 
         });
 
@@ -189,6 +199,25 @@ public class StepDefinitions {
     @Then("I should get an empty name")
     public void i_should_get_an_empty_name() {
         assertNull(scenarioContext.get("name"));
+    }
+
+    @When("I retrieve it's held items")
+    public void i_retrieve_it_s_held_items() {
+        UseCase useCase = useCaseFactory.make("FindHeldItemsUseCase");
+        Request request = requestFactory.make("FindHeldItemsRequest", singletonMap("name", scenarioContext.get("pokemonName")));
+        useCase.execute(request)
+                .map(response -> (FindHeldItemsResponse)response)
+                .subscribe(response -> scenarioContext.put("heldItems",response.heldItems));
+    }
+    @Then("I should get it's held items")
+    public void i_should_get_it_s_held_items() {
+        assertNotNull(scenarioContext.get("heldItems"));
+        assertFalse(((List)scenarioContext.get("heldItems")).isEmpty());
+    }
+
+    @Then("I should get an empty held items")
+    public void i_should_get_an_empty_held_items() {
+        assertTrue(((List)scenarioContext.get("heldItems")).isEmpty());
     }
 }
 
