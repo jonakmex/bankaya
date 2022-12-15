@@ -11,6 +11,7 @@ sourceCompatibility = '8'
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://jsch.sf.net/maven2' }
 }
 
 ext {

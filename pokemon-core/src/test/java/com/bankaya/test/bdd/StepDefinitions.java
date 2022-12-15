@@ -5,6 +5,7 @@ import com.bankaya.pokemon.boundary.ds.AbilityDS;
 import com.bankaya.pokemon.boundary.request.Request;
 import com.bankaya.pokemon.boundary.response.FindAbilitiesResponse;
 import com.bankaya.pokemon.boundary.response.FindBaseExperienceResponse;
+import com.bankaya.pokemon.boundary.response.FindIdResponse;
 import com.bankaya.pokemon.entity.Pokemon;
 import com.bankaya.pokemon.gateway.PokemonGateway;
 import com.bankaya.pokemon.usecase.UseCase;
@@ -60,6 +61,19 @@ public class StepDefinitions {
                     .findFirst();
             if(!found.isEmpty())
                 return Mono.just(found.get().getBaseExperience());
+            else
+                return Mono.empty();
+
+        });
+
+        Mockito.when(pokemonGateway.findIdByName(anyString())).thenAnswer(i->{
+            String name = i.getArgument(0);
+            List<Pokemon> pokemons = (List<Pokemon>) scenarioContext.get("pokemons");
+            Optional<Pokemon> found = pokemons.stream()
+                    .filter(p -> p.getName().equals(name))
+                    .findFirst();
+            if(!found.isEmpty())
+                return Mono.just(found.get().getId());
             else
                 return Mono.empty();
 
@@ -123,7 +137,19 @@ public class StepDefinitions {
 
     @Then("I should get an empty result")
     public void i_should_get_an_empty_result() {
-        // Write code here that turns the phrase above into concrete actions
+        assertNull(scenarioContext.get("base_experience"));
+    }
+
+    @When("I retrieve it's id")
+    public void i_retrieve_it_s_id() {
+        UseCase useCase = useCaseFactory.make("FindIdUseCase");
+        Request request = requestFactory.make("FindIdRequest", singletonMap("name", scenarioContext.get("pokemonName")));
+        useCase.execute(request)
+                .map(response -> (FindIdResponse)response)
+                .subscribe(response -> scenarioContext.put("id",response.id));
+    }
+    @Then("I should get it's id")
+    public void i_should_get_it_s_id() {
         assertNull(scenarioContext.get("base_experience"));
     }
 }

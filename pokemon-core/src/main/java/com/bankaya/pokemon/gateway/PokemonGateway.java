@@ -1,4 +1,4 @@
 package com.bankaya.pokemon.gateway;
 
-public interface PokemonGateway extends PokemonAbilitiesGateway,PokemonBaseExperienceGateway {
+public interface PokemonGateway extends PokemonAbilitiesGateway,PokemonBaseExperienceGateway,PokemonIdGateway {
 }

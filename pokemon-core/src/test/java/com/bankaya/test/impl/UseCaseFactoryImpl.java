@@ -1,10 +1,7 @@
 package com.bankaya.test.impl;
 
 import com.bankaya.pokemon.gateway.PokemonGateway;
-import com.bankaya.pokemon.usecase.FindAbilitiesUseCase;
-import com.bankaya.pokemon.usecase.FindBaseExperienceUseCase;
-import com.bankaya.pokemon.usecase.UseCase;
-import com.bankaya.pokemon.usecase.UseCaseFactory;
+import com.bankaya.pokemon.usecase.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +25,18 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
                 return makeFindAbilitiesUseCase();
             case "FindBaseExperienceUseCase":
                 return makeFindBaseExperienceUseCase();
+            case "FindIdUseCase":
+                return makeFindIdUseCase();
             default:
                 return null;
         }
+    }
+
+    private UseCase makeFindIdUseCase() {
+        if(context.get("FindIdUseCase") == null)
+            context.put("FindIdUseCase", new FindIdUseCase((PokemonGateway) context.get("pokemonGateway")));
+
+        return (UseCase) context.get("FindIdUseCase");
     }
 
     private UseCase makeFindBaseExperienceUseCase() {
