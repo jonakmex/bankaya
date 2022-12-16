@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  naming-server:
+    image: bankaya/naming-server-image
+    ports: 
+      - "8761:8761"
+    networks:
+      - bankaya-network
+  api-gateway:
+    image: bankaya/api-gateway-image
+    ports:
+      - "8765:8765"
+    networks:
+      - bankaya-network
+    depends_on:
+      - naming-server
+    environment:
+      NAMING_SERVER_HOST: naming-server
+      NAMING_SERVER_PORT: 8761
+  pokemon-soap:
+    image: bankaya/pokemon-soap-image
+    ports:
+      - "8080:8080"
+    networks:
+      - bankaya-network
+    depends_on: 
+      - naming-server
+    environment:
+      NAMING_SERVER_HOST: naming-server
+      NAMING_SERVER_PORT: 8761
+networks:
+  bankaya-network:
+    external: false

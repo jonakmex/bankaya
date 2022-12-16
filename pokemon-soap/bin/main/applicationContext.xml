@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="FindAbilitiesUseCase" class="com.bankaya.pokemon.usecase.FindAbilitiesUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindBaseExperienceUseCase" class="com.bankaya.pokemon.usecase.FindBaseExperienceUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindIdUseCase" class="com.bankaya.pokemon.usecase.FindIdUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindNameUseCase" class="com.bankaya.pokemon.usecase.FindNameUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindHeldItemsUseCase" class="com.bankaya.pokemon.usecase.FindHeldItemsUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+    <bean id="FindLocationEncountersUseCase" class="com.bankaya.pokemon.usecase.FindLocationEncountersUseCase">
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+        <constructor-arg name="pokemonAbilitiesGateway" ref="pokemonGatewayWebClient"/>
+    </bean>
+
+</beans>
