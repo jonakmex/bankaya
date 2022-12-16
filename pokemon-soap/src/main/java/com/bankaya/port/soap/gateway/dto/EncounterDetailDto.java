@@ -7,9 +7,10 @@ import java.util.Map;
 
 @Data
 public class EncounterDetailDto {
+    @JsonProperty("chance")
     public Integer chance;
-    @JsonProperty("condition_values")
-    public Map<String,String> conditionValues;
+    //@JsonProperty("condition_values")
+    //public Map<String,String> conditionValues;
     @JsonProperty("min_level")
     public Integer minLevel;
     @JsonProperty("max_level")

@@ -141,26 +141,43 @@ public class PokemonEndpoint {
     private Encounter mapToEncounterSoap(EncounterDS ds) {
         var encounter = new Encounter();
         encounter.setLocationArea(ds.locationArea);
-        //encounter.setEncounterDetails(mapToEncounterDetails(ds));
+        encounter.setEncounterVersionDetails(mapToEncounterVersionDetailsSoap(ds));
         return encounter;
     }
 
-    private EncounterDetails mapToEncounterDetails(EncounterDS ds) {
-        var encounterDetails = new EncounterDetails();
-        encounterDetails.getEncounterDetail().addAll(ds.encounterDetails
+    private EncounterVersionDetails mapToEncounterVersionDetailsSoap(EncounterDS ds) {
+        var encounterVersionDetails = new EncounterVersionDetails();
+        encounterVersionDetails.getEncounterVersionDetail().addAll(ds.versionDetailDSs
                 .stream()
-                .map(dtl -> mapToEncounterDetailSoap(dtl))
+                .map(vdtl -> mapToEncounterVersionDetailSoap(vdtl))
+                .collect(Collectors.toList()));
+        return encounterVersionDetails;
+    }
+
+    private EncounterVersionDetail mapToEncounterVersionDetailSoap(VersionDetailDS vdtl) {
+        var encounterVersionDetail = new EncounterVersionDetail();
+        encounterVersionDetail.setName(vdtl.name);
+        encounterVersionDetail.setMaxChance(BigInteger.valueOf(vdtl.maxChance));
+        encounterVersionDetail.setEncounterDetails(mapToEncounterDetailsSoap(vdtl.encounterDetails));
+        return encounterVersionDetail;
+    }
+
+    private EncounterDetails mapToEncounterDetailsSoap(List<EncounterDetailDS> encounterDetailsDs) {
+        var encounterDetails = new EncounterDetails();
+        encounterDetails.getEncounterDetail().addAll(encounterDetailsDs
+                .stream()
+                .map(dtlds -> mapToEncounterDetailSoap(dtlds))
                 .collect(Collectors.toList()));
         return encounterDetails;
     }
 
-    private EncounterDetail mapToEncounterDetailSoap(EncounterDetailDS dtl) {
+    private EncounterDetail mapToEncounterDetailSoap(EncounterDetailDS dtlds) {
         var encounterDetail = new EncounterDetail();
-        encounterDetail.setChance(BigInteger.valueOf(dtl.chance));
-        encounterDetail.setConditionValues(dtl.conditionValues);
-        encounterDetail.setMaxLevel(BigInteger.valueOf(dtl.maxLevel));
-        encounterDetail.setMethod(dtl.method);
-        encounterDetail.setMinLevel(BigInteger.valueOf(dtl.minLevel));
+        encounterDetail.setChance(BigInteger.valueOf(dtlds.chance));
+        encounterDetail.setMethod(dtlds.method);
+        encounterDetail.setConditionValues(dtlds.conditionValues);
+        encounterDetail.setMinLevel(BigInteger.valueOf(dtlds.minLevel));
+        encounterDetail.setMaxLevel(BigInteger.valueOf(dtlds.maxLevel));
         return encounterDetail;
     }
 
@@ -185,18 +202,18 @@ public class PokemonEndpoint {
     private com.bankaya.pokemon_web_service.Helditem mapToHeldItemSoapResponse(HeldItemDS heldItemDs) {
         var heldItemSoap = new com.bankaya.pokemon_web_service.Helditem();
         heldItemSoap.setName(heldItemDs.name);
-        heldItemSoap.setVersiondetails(mapToVersionDetailsSoap(heldItemDs.details));
+        //heldItemSoap.setVersiondetails(mapToVersionDetailsSoap(heldItemDs.details));
         return heldItemSoap;
     }
 
-    private Versiondetails mapToVersionDetailsSoap(List<HeldDetailDS> details) {
-        var versionDetailsSoap = new Versiondetails();
-        versionDetailsSoap.getVersiondetail().addAll(details
-                .stream()
-                .map(ds -> mapToVersionDetailsSoap(ds))
-                .collect(Collectors.toList()));
-        return versionDetailsSoap;
-    }
+//    private Versiondetails mapToVersionDetailsSoap(List<HeldDetailDS> details) {
+//        var versionDetailsSoap = new Versiondetails();
+//        versionDetailsSoap.getVersiondetail().addAll(details
+//                .stream()
+//                .map(ds -> mapToVersionDetailsSoap(ds))
+//                .collect(Collectors.toList()));
+//        return versionDetailsSoap;
+//    }
 
     private Versiondetail mapToVersionDetailsSoap(HeldDetailDS detail) {
         var versionDetailSoap = new Versiondetail();

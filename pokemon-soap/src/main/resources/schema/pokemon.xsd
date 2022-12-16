@@ -46,6 +46,14 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType  name="encounterVersionDetail">
+        <xs:sequence>
+            <xs:element name="encounterDetails" type="tns:encounterDetails"/>
+            <xs:element name="maxChance" type="xs:integer"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="helditems">
         <xs:sequence>
             <xs:element name="helditem" maxOccurs="unbounded" minOccurs="0"  type="tns:helditem"/>
@@ -58,22 +66,22 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="versiondetails">
-        <xs:sequence>
-            <xs:element name="versiondetail" maxOccurs="unbounded" minOccurs="0"  type="tns:versiondetail"/>
-        </xs:sequence>
-    </xs:complexType>
-
     <xs:complexType name="locationDetails">
         <xs:sequence>
             <xs:element name="locationDetail" maxOccurs="unbounded" minOccurs="0"  type="tns:locationDetail"/>
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="encounterVersionDetails">
+        <xs:sequence>
+            <xs:element name="encounterVersionDetail" maxOccurs="unbounded" minOccurs="0"  type="tns:encounterVersionDetail"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="encounter">
         <xs:sequence>
             <xs:element name="locationArea" type="xs:string"/>
-            <xs:element name="encounterDetails"   type="tns:encounterDetails"/>
+            <xs:element name="encounterVersionDetails"  type="tns:encounterVersionDetails"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -86,7 +94,7 @@
     <xs:complexType  name="helditem">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="versiondetails" type="tns:versiondetails"/>
+            <!--<xs:element name="versiondetails" type="tns:versiondetails"/>-->
         </xs:sequence>
     </xs:complexType>
 

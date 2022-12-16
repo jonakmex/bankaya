@@ -135,23 +135,33 @@ public class PokemonGatewayWebClient implements PokemonGateway {
     private Encounter mapToEncounter(EncounterDto e) {
         var encounter = new Encounter();
         encounter.setLocationArea(e.locationArea.get("name"));
-        //encounter.setName(e.version.get("name"));
-        encounter.setMaxChance(Integer.valueOf(e.versionDetails.get("max_chance").toString()));
-        encounter.setEncounterDetails(new ArrayList<>());
-        //encounter.setEncounterDetails(e.versionDetails.stream()
-         //      .map(d -> mapToEncounterDetail((Map)d.get("encounter_details")))
-          //     .collect(Collectors.toList()));
+        encounter.setVersionDetails(e.versionDetails
+                .stream()
+                .map(vdtl -> mapToVersionDetails(vdtl))
+                .collect(Collectors.toList()));
         return encounter;
     }
 
-    private EncounterDetail mapToEncounterDetail(Map encounterDetailsMap) {
+    private VersionDetail mapToVersionDetails(EncounterVersionDetailDto vdtl) {
+        var versionDetail = new VersionDetail();
+        versionDetail.setName(vdtl.getVersion().get("name"));
+        versionDetail.setMaxChance(vdtl.getMaxChance());
+        versionDetail.setEncounterDetails(vdtl.getEncounterDetailDtos()
+                .stream()
+                .map(edtl -> mapToEncounterDetail(edtl))
+                .collect(Collectors.toList()));
+        return versionDetail;
+    }
+
+
+    private EncounterDetail mapToEncounterDetail(EncounterDetailDto encounterDetailDto) {
         var encounterDetail = new EncounterDetail();
 
-        encounterDetail.setChance(Integer.valueOf(encounterDetailsMap.get("chance").toString()));
+        encounterDetail.setChance(encounterDetailDto.chance);
         //encounterDetail.setConditionValues(d.conditionValues.get("name"));
-        //encounterDetail.setMethod(d.method.get("name"));
-        //encounterDetail.setMinLevel(Integer.valueOf(d.get("min_level").toString()));
-        //encounterDetail.setMaxLevel(Integer.valueOf(d.get("max_level").toString()));
+        encounterDetail.setMethod(encounterDetailDto.method.get("name"));
+        encounterDetail.setMinLevel(encounterDetailDto.minLevel);
+        encounterDetail.setMaxLevel(encounterDetailDto.maxLevel);
         return encounterDetail;
     }
 

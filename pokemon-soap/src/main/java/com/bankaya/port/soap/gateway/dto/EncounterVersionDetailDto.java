@@ -9,5 +9,9 @@ import java.util.Map;
 @Data
 public class EncounterVersionDetailDto {
     @JsonProperty("encounter_details")
-    private Map encounterDetailDtos;
+    private List<EncounterDetailDto> encounterDetailDtos;
+    @JsonProperty("max_chance")
+    private Integer maxChance;
+    @JsonProperty("version")
+    private Map<String,String> version;
 }
