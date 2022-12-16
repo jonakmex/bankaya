@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Routes {
-    //@Bean
+    @Bean
     public RouteLocator router(RouteLocatorBuilder routeLocatorBuilder){
         return routeLocatorBuilder.routes()
                 .route(p -> p.path("pokemon-ws/*").uri("lb://POKEMON-WS"))
