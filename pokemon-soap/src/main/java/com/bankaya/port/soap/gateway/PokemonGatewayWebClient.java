@@ -135,20 +135,23 @@ public class PokemonGatewayWebClient implements PokemonGateway {
     private Encounter mapToEncounter(EncounterDto e) {
         var encounter = new Encounter();
         encounter.setLocationArea(e.locationArea.get("name"));
+        //encounter.setName(e.version.get("name"));
+        encounter.setMaxChance(Integer.valueOf(e.versionDetails.get("max_chance").toString()));
         encounter.setEncounterDetails(new ArrayList<>());
-        //encounter.setEncounterDetails(e.encounterDetails.stream()
-        //        .map(d -> mapToEncounterDetail(d))
-        //        .collect(Collectors.toList()));
+        //encounter.setEncounterDetails(e.versionDetails.stream()
+         //      .map(d -> mapToEncounterDetail((Map)d.get("encounter_details")))
+          //     .collect(Collectors.toList()));
         return encounter;
     }
 
-    private EncounterDetail mapToEncounterDetail(EncounterDetailDto d) {
+    private EncounterDetail mapToEncounterDetail(Map encounterDetailsMap) {
         var encounterDetail = new EncounterDetail();
-        encounterDetail.setChance(d.getChance());
-        encounterDetail.setConditionValues(d.conditionValues.get("name"));
-        encounterDetail.setMethod(d.method.get("name"));
-        encounterDetail.setMinLevel(d.minLevel);
-        encounterDetail.setMaxLevel(d.maxLevel);
+
+        encounterDetail.setChance(Integer.valueOf(encounterDetailsMap.get("chance").toString()));
+        //encounterDetail.setConditionValues(d.conditionValues.get("name"));
+        //encounterDetail.setMethod(d.method.get("name"));
+        //encounterDetail.setMinLevel(Integer.valueOf(d.get("min_level").toString()));
+        //encounterDetail.setMaxLevel(Integer.valueOf(d.get("max_level").toString()));
         return encounterDetail;
     }
 

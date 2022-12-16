@@ -11,5 +11,5 @@ public class EncounterDto {
     @JsonProperty("location_area")
     public Map<String,String> locationArea;
     @JsonProperty("version_details")
-    public List<EncounterDetailDto> encounterDetails;
+    public List<Map> versionDetails;
 }

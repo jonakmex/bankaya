@@ -2,6 +2,7 @@ package com.bankaya.pokemon.usecase;
 
 import com.bankaya.pokemon.boundary.ds.EncounterDS;
 import com.bankaya.pokemon.boundary.ds.EncounterDetailDS;
+import com.bankaya.pokemon.boundary.ds.VersionDetailDS;
 import com.bankaya.pokemon.boundary.request.FindBaseExperienceRequest;
 import com.bankaya.pokemon.boundary.request.FindLocationEncountersRequest;
 import com.bankaya.pokemon.boundary.request.Request;
@@ -10,6 +11,7 @@ import com.bankaya.pokemon.boundary.response.FindLocationEncountersResponse;
 import com.bankaya.pokemon.boundary.response.Response;
 import com.bankaya.pokemon.entity.Encounter;
 import com.bankaya.pokemon.entity.EncounterDetail;
+import com.bankaya.pokemon.entity.VersionDetail;
 import com.bankaya.pokemon.gateway.PokemonIdGateway;
 import com.bankaya.pokemon.gateway.PokemonLocationEncountersGateway;
 import reactor.core.publisher.Mono;
@@ -51,11 +53,22 @@ public class FindLocationEncountersUseCase implements UseCase {
     private Mono<EncounterDS> mapToEncounterDS(Encounter encounter) {
         var encounterDS = new EncounterDS();
         encounterDS.locationArea = encounter.getLocationArea();
-        encounterDS.encounterDetails = encounter.getEncounterDetails()
+        encounterDS.versionDetailDSs = encounter.getVersionDetails()
                 .stream()
-                .map(d -> mapToEncounterDetailDS(d))
+                .map(d -> mapToVersionDetailDS(d))
                 .collect(Collectors.toList());
         return Mono.just(encounterDS);
+    }
+
+    private VersionDetailDS mapToVersionDetailDS(VersionDetail d) {
+        var versionDetailDS = new VersionDetailDS();
+        versionDetailDS.maxChance = d.getMaxChance();
+        versionDetailDS.name = d.getName();
+        versionDetailDS.encounterDetails = d.getEncounterDetails()
+                .stream()
+                .map(dtl -> mapToEncounterDetailDS(dtl))
+                .collect(Collectors.toList());
+        return versionDetailDS;
     }
 
     private EncounterDetailDS mapToEncounterDetailDS(EncounterDetail d) {

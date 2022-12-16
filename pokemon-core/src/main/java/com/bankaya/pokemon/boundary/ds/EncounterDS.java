@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class EncounterDS {
     public String locationArea;
-    public List<EncounterDetailDS> encounterDetails;
+    public List<VersionDetailDS> versionDetailDSs;
 }

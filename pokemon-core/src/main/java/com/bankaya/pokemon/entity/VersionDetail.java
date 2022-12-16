@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Encounter {
-    private String locationArea;
-    private List<VersionDetail> versionDetails;
+@NoArgsConstructor
+public class VersionDetail {
+    private List<EncounterDetail> encounterDetails;
+    private Integer maxChance;
+    private String name;
 }

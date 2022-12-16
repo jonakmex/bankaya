@@ -34,7 +34,13 @@ public class Utils {
 
     private static List<Encounter> makeRandomEncounters(){
         return Arrays.asList(
-                new Encounter("encounter-1",makeEncounterDetails())
+                new Encounter("encounter-1",makeVersionDetails())
+        );
+    }
+
+    private static List<VersionDetail> makeVersionDetails() {
+        return Arrays.asList(
+                new VersionDetail(makeEncounterDetails(),10,"XYZ")
         );
     }
 
