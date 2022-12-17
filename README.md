@@ -1,4 +1,4 @@
-# Bankaya projecto Pokemon APO
+# Bankaya projecto Pokemon API - Jonathan Josue Gomez Bustamante
 
 Proyecto Spring boot que expone un endpoint SOAP con las siguientes operaciones:
 * FindAbilities
