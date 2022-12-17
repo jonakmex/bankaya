@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="2846a8fb-b5ee-4053-8d27-70e1aaa07ca3" activeEnvironment="Default" name="pokemon" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="7745bb35-2da3-4859-b096-09dfc147ed43" wsaVersion="NONE" name="PokemonPortSoap11" type="wsdl" bindingName="{http://bankaya.com/pokemon-web-service}PokemonPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ws/pokemon.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ws/pokemon.wsdl"><con:part><con:url>http://localhost:8080/ws/pokemon.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://bankaya.com/pokemon-web-service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://bankaya.com/pokemon-web-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://bankaya.com/pokemon-web-service">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://bankaya.com/pokemon-web-service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="abilities" type="tns:abilities"/>
+      <xs:element name="helditems" type="tns:helditems"/>
+      <xs:complexType name="abilities">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="ability" type="tns:ability"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ability">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="hidden" type="xs:boolean"/>
+          <xs:element name="slot" type="xs:integer"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="versiondetail">
+        <xs:sequence>
+          <xs:element name="rarity" type="xs:integer"/>
+          <xs:element name="version" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="locationDetail">
+        <xs:sequence>
+          <xs:element name="encounterDetails" type="tns:encounterDetails"/>
+          <xs:element name="maxChance" type="xs:integer"/>
+          <xs:element name="version" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="encounterDetail">
+        <xs:sequence>
+          <xs:element name="chance" type="xs:integer"/>
+          <xs:element name="conditionValues" type="xs:string"/>
+          <xs:element name="maxLevel" type="xs:integer"/>
+          <xs:element name="method" type="xs:string"/>
+          <xs:element name="minLevel" type="xs:integer"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="helditems">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="helditem" type="tns:helditem"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="encounterDetails">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="encounterDetail" type="tns:encounterDetail"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="versiondetails">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="versiondetail" type="tns:versiondetail"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="locationDetails">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="locationDetail" type="tns:locationDetail"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="helditem">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="versiondetails" type="tns:versiondetails"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="locationEncounter">
+        <xs:sequence>
+          <xs:element name="locationArea" type="xs:string"/>
+          <xs:element name="locationDetails" type="tns:locationDetails"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="findAbilitiesSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findBaseExperienceSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findHeldItemsSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findIdSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findNameSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findLocationAreaEncountersSoapRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pokemonName" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findAbilitiesSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="abilities" type="tns:abilities"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findBaseExperienceSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="baseExperience" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findHeldItemsSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="helditems" type="tns:helditems"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findIdSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findNameSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="findLocationAreaEncountersSoapResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="locationAreaEncounters" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="findHeldItemsSoapResponse">
+    <wsdl:part element="tns:findHeldItemsSoapResponse" name="findHeldItemsSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findNameSoapRequest">
+    <wsdl:part element="tns:findNameSoapRequest" name="findNameSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAbilitiesSoapRequest">
+    <wsdl:part element="tns:findAbilitiesSoapRequest" name="findAbilitiesSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBaseExperienceSoapRequest">
+    <wsdl:part element="tns:findBaseExperienceSoapRequest" name="findBaseExperienceSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBaseExperienceSoapResponse">
+    <wsdl:part element="tns:findBaseExperienceSoapResponse" name="findBaseExperienceSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findHeldItemsSoapRequest">
+    <wsdl:part element="tns:findHeldItemsSoapRequest" name="findHeldItemsSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findIdSoapResponse">
+    <wsdl:part element="tns:findIdSoapResponse" name="findIdSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findNameSoapResponse">
+    <wsdl:part element="tns:findNameSoapResponse" name="findNameSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findLocationAreaEncountersSoapResponse">
+    <wsdl:part element="tns:findLocationAreaEncountersSoapResponse" name="findLocationAreaEncountersSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findIdSoapRequest">
+    <wsdl:part element="tns:findIdSoapRequest" name="findIdSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAbilitiesSoapResponse">
+    <wsdl:part element="tns:findAbilitiesSoapResponse" name="findAbilitiesSoapResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findLocationAreaEncountersSoapRequest">
+    <wsdl:part element="tns:findLocationAreaEncountersSoapRequest" name="findLocationAreaEncountersSoapRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PokemonPort">
+    <wsdl:operation name="findHeldItemsSoap">
+      <wsdl:input message="tns:findHeldItemsSoapRequest" name="findHeldItemsSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findHeldItemsSoapResponse" name="findHeldItemsSoapResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findNameSoap">
+      <wsdl:input message="tns:findNameSoapRequest" name="findNameSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findNameSoapResponse" name="findNameSoapResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAbilitiesSoap">
+      <wsdl:input message="tns:findAbilitiesSoapRequest" name="findAbilitiesSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findAbilitiesSoapResponse" name="findAbilitiesSoapResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findBaseExperienceSoap">
+      <wsdl:input message="tns:findBaseExperienceSoapRequest" name="findBaseExperienceSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findBaseExperienceSoapResponse" name="findBaseExperienceSoapResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findIdSoap">
+      <wsdl:input message="tns:findIdSoapRequest" name="findIdSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findIdSoapResponse" name="findIdSoapResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findLocationAreaEncountersSoap">
+      <wsdl:input message="tns:findLocationAreaEncountersSoapRequest" name="findLocationAreaEncountersSoapRequest"></wsdl:input>
+      <wsdl:output message="tns:findLocationAreaEncountersSoapResponse" name="findLocationAreaEncountersSoapResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PokemonPortSoap11" type="tns:PokemonPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findHeldItemsSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findHeldItemsSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findHeldItemsSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findNameSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findNameSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findNameSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAbilitiesSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findAbilitiesSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAbilitiesSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findBaseExperienceSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findBaseExperienceSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findBaseExperienceSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findIdSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findIdSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findIdSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findLocationAreaEncountersSoap">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="findLocationAreaEncountersSoapRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findLocationAreaEncountersSoapResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PokemonPortService">
+    <wsdl:port binding="tns:PokemonPortSoap11" name="PokemonPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ws</con:endpoint></con:endpoints><con:operation id="c5f5ab8b-305b-4096-84ce-926758f9c070" isOneWay="false" action="" name="findAbilitiesSoap" bindingOperationName="findAbilitiesSoap" type="Request-Response" outputName="findAbilitiesSoapResponse" inputName="findAbilitiesSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e41484ab-b32b-4911-b915-e257f5c0d4d8" name="FindAbilitiesExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findAbilitiesSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findAbilitiesSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findAbilitiesSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="11f9ad20-df25-4ace-8d37-eac997ac8a26" isOneWay="false" action="" name="findBaseExperienceSoap" bindingOperationName="findBaseExperienceSoap" type="Request-Response" outputName="findBaseExperienceSoapResponse" inputName="findBaseExperienceSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="32dfd49d-1b06-4377-a235-0f0314472529" name="FindBaseExperienceExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findBaseExperienceSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findBaseExperienceSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findBaseExperienceSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c0fc17d1-b304-4d37-87a6-b90c044fd425" isOneWay="false" action="" name="findHeldItemsSoap" bindingOperationName="findHeldItemsSoap" type="Request-Response" outputName="findHeldItemsSoapResponse" inputName="findHeldItemsSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2337daca-cbbe-4321-b4e0-f37f87a433e2" name="FindHeldItemsExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findHeldItemsSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findHeldItemsSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findHeldItemsSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="d7329eb2-e6c4-4d8d-8d16-1b15a6697116" isOneWay="false" action="" name="findIdSoap" bindingOperationName="findIdSoap" type="Request-Response" outputName="findIdSoapResponse" inputName="findIdSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="17ecf623-aa04-4027-9c99-e77599eb4a1b" name="FindIdExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findIdSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findIdSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findIdSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="0a143520-84eb-40ee-a8d4-0c6ea235c293" isOneWay="false" action="" name="findLocationAreaEncountersSoap" bindingOperationName="findLocationAreaEncountersSoap" type="Request-Response" outputName="findLocationAreaEncountersSoapResponse" inputName="findLocationAreaEncountersSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="012069e3-b91e-4ae4-b274-baa47b26dff1" name="FindLocationAreaEncountersExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findLocationAreaEncountersSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findLocationAreaEncountersSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findLocationAreaEncountersSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="00ea89bc-a06d-4c48-98ec-cdc47dcccdff" isOneWay="false" action="" name="findNameSoap" bindingOperationName="findNameSoap" type="Request-Response" outputName="findNameSoapResponse" inputName="findNameSoapRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9e178af4-5f58-4561-af19-483fac370f58" name="FindNameExisting"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8765/pokemon-ws/pokemon-ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pok="http://bankaya.com/pokemon-web-service">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <pok:findNameSoapRequest>\r
+         <pok:pokemonName>ditto</pok:pokemonName>\r
+      </pok:findNameSoapRequest>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://bankaya.com/pokemon-web-service/PokemonPort/findNameSoapRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
