@@ -7,16 +7,18 @@ services:
       - "9411:9411"
     networks:
       - bankaya-network
+
   naming-server:
-    image: bankaya/naming-server-image
+    image: jonakmex9824/bankaya-naming-server-image
     ports: 
       - "8761:8761"
     networks:
       - bankaya-network
     depends_on: 
       - zipkin-server
+
   api-gateway:
-    image: bankaya/api-gateway-image
+    image: jonakmex9824/bankaya-api-gateway-image
     ports:
       - "8765:8765"
     networks:
@@ -28,8 +30,9 @@ services:
       NAMING_SERVER_PORT: 8761
       ZIPKIN_SERVER_HOST: zipkin-server
       ZIPKIN_SERVER_PORT: 9411
+
   pokemon-soap:
-    image: bankaya/pokemon-soap-image
+    image: jonakmex9824/bankaya-pokemon-soap-image
     ports:
       - "8080:8080"
     networks:
