@@ -72,3 +72,6 @@ docker-compose up -d
 
 ## Usage
 Proyecto [SOAPUI](https://github.com/jonakmex/bankaya/blob/main/pokemon-soapui-project.xml)
+
+Enpoint:
+http://localhost:8765/pokemon-ws/pokemon-ws
