@@ -30,7 +30,7 @@ gradlew clean build publishToMavenLocal
 
 ```bash
 cd pokemon-soap
-gradlew clean genJaxb build publishToMavenLocal
+gradlew clean genJaxb build 
 ```
 
 3. Proyecto Eureka
