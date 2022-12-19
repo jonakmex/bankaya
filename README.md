@@ -75,3 +75,8 @@ Proyecto [SOAPUI](https://github.com/jonakmex/bankaya/blob/main/pokemon-soapui-p
 
 Enpoint:
 http://localhost:8765/pokemon-ws/pokemon-ws
+
+Para acceder a la inspeccion de requests guardados en base de datos:
+http://localhost:9411
+
+Dar click en el boton de busqueda para cargar las ultimas entradas.
